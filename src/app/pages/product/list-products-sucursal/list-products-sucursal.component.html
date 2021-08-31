@@ -81,8 +81,7 @@
                     <!--Card footer-->
                     <div class="card-footer">
                       <span class="right">
-                        <div class="product__checkbox"        
-                        *ngIf="user == 'buttymanager' || user == 'buttyekonomico'"
+                        <div class="product__checkbox"                      
                       >
                       <input type="checkbox" [value]="product.id" [checked]="!product.attributes.state"  (change)="changeState(product.id, product.attributes.state)" />
                       </div>
