@@ -12,6 +12,7 @@ import { EditProductComponent } from '../edit-product/edit-product.component';
 import { PreviewProductComponent } from '../preview-product/preview-product.component';
 import { StatesService } from 'src/app/core/services/states.service';
 import { MunicipioService } from 'src/app/core/services/municipio.service';
+import { SucursalService } from 'src/app/core/services/sucursal.service';
 
 
 @Component({
@@ -44,6 +45,7 @@ export class ListProductsSucursalComponent implements OnInit {
     private provinceService: GetProvincesService,
     private userService: UserService,
     private municipioService: MunicipioService,
+    private sucursalService: SucursalService,
     public auth: AuthService,
     public dialog: MatDialog,
     @Inject(DOCUMENT) public document: Document
@@ -60,7 +62,7 @@ export class ListProductsSucursalComponent implements OnInit {
        this.user = user.nickname;    
        this.isAdmin();        
       this.who= history.state.who;       
-      this.getProvinces();
+      this.getSucursal();
       this.getProductForProvince();  
     })
 
@@ -118,42 +120,33 @@ export class ListProductsSucursalComponent implements OnInit {
     }
      
   };
-  getProvinces(){
-    this.provincesP = this.provinceService.getProvinces();  
-    for (const province of this.provincesP) {
-      this.municipioService.getMunicipio(province.name).then(res=>{
-        console.log(res[0].attributes['municipios'][0].municipio);        
-        if(res[0].attributes['municipios'][0].municipio != ''){
-          this.provinces.push(province);
-          console.log('PRovinces');
-          console.log(this.provinces);
-        }
+  getSucursal(){
+   
+      console.log('Su');
+      console.log(this.user);
+      
+      
+      this.sucursalService.getSucursalFromUser(this.user).then(res=>{
+        console.log('Sucursal');
+        
+        console.log(res);        
+       
       })
   
-    }
+ 
    
   }
 
   getProductForProvince() {
-    console.log(this.selectedProvince);  
-    if(this.userService.isAdmin(this.user)){
+    
       this.loading = true;
-      this.service.getAllProductProperties(this.selectedProvince).then(res=>{
-        this.products = res; 
-        this.loading = false;
-        console.log('Products');
-        
-        console.log(this.products);        
-      }) 
-    }else{
-      this.loading = true;
-      this.service.getProductProperties(this.selectedProvince, this.user).then(res=>{
+      this.service.getProductFromCategory('Restaurante 1').then(res=>{
         this.products = res; 
         this.loading = false;
         console.log(this.products);
         
       }) 
-    }  
+    
   }
   isAdmin(){
     this.admin = this.userService.isAdmin(this.user);

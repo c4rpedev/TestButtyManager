@@ -144,7 +144,20 @@ export class OrderService {
   }
 
   getOrder(agency: string): Promise <any> {    
-    if(agency && agency != 'buttymanager' && agency != 'buttycomercial' && agency != 'buttyoperaciones' && agency != 'buttyekonomico'){   
+    console.log('Agencia');
+    console.log(agency);
+    
+    
+    if(agency == 'comercial'){
+      const Orders = Parse.Object.extend('order');
+      const query = new Parse.Query(Orders);
+      const query2 = new Parse.Query(Orders);
+      query.equalTo('orderAgency', 'patugente');
+      query2.equalTo('orderSucursal', 'patugente');
+      const composedQuery = Parse.Query.or(query, query2);
+      query.limit(1000);
+      return composedQuery.find() 
+    }else if(agency && agency != 'buttymanager' && agency != 'buttycomercial' && agency != 'buttyoperaciones' && agency != 'buttyekonomico'){   
       const Orders = Parse.Object.extend('order');
       const query = new Parse.Query(Orders);    
       query.equalTo('orderAgency', agency);
@@ -153,6 +166,7 @@ export class OrderService {
     }else{
       const Orders = Parse.Object.extend('order');
       const query = new Parse.Query(Orders);
+      query.notEqualTo('orderAgency', 'patugente');
       query.limit(1000);
       return query.find()
     }   

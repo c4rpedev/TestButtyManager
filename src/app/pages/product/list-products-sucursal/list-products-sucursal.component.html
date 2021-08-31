@@ -80,34 +80,7 @@
                     <p class="card-text">{{ product.attributes.category }}</p>
                     <!--Card footer-->
                     <div class="card-footer">
-                      <span class="left">$ {{ product.attributes.price }}</span>
                       <span class="right">
-                        <a class="add__product"                       
-                          placement="top"
-                          mdbTooltip="Add to Wishlist"
-                          container="body"
-                          (click)="openDialog(product.attributes)"
-                         
-                        >
-                          <i class="fa fa-list"></i>
-                        </a>
-                        <a class="add__product"                       
-                          placement="top"
-                          mdbTooltip="Add to Wishlist"
-                          container="body"
-                          (click)="editProduct(product, product.attributes)"
-                          *ngIf="user == 'buttymanager' || user == 'buttyekonomico'"
-                        >
-                          <i class="fa fa-edit"></i>
-                        </a>
-                        <a *ngIf="product.attributes.state" class="add__product"                       
-                          placement="top"
-                          mdbTooltip="Add to Wishlist"
-                          container="body"
-                          (click)="addToCart(product.attributes)"                          
-                        >
-                          <i class="fa fa-plus-circle"></i>
-                        </a>
                         <div class="product__checkbox"        
                         *ngIf="user == 'buttymanager' || user == 'buttyekonomico'"
                       >

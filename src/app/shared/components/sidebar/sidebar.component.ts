@@ -74,7 +74,7 @@ export class SidebarComponent implements OnInit {
     
   }
   isComercial(): boolean{
-    if(this.user == 'buttycomercial'){
+    if(this.user == 'buttycomercial' || this.user == 'comercial' ){
       return true;
     }else{
       return false;

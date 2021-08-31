@@ -14,6 +14,12 @@ export class SucursalService {
     return query.find();   
   }
 
+  getSucursalFromUser(user: string): Promise <any> {   
+    const Sucursal = Parse.Object.extend('sucursales');
+    const query = new Parse.Query(Sucursal);    
+    query.equalTo('user', user);  
+    return query.find();   
+  }
   
   getSucursalFromName(name: string): Promise <any> {   
     const Sucursal = Parse.Object.extend('sucursales');

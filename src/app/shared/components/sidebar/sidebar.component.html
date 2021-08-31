@@ -21,7 +21,13 @@
           <i class="fa fa-shopping-cart"></i>
         </div>
         <span>Productos</span>
-      </div>     
+      </div>
+      <div class="links" [routerLink]="['/list-product-sucursal']" (click)="openMenu()" *ngIf="sucursal">
+        <div class="icon">
+          <i class="fa fa-shopping-cart"></i>
+        </div>
+        <span>Productos</span>
+      </div>
       <div class="links" [routerLink]="['/add-product']" (click)="openMenu()" *ngIf="admin && !sucursal && !isComercial()">
         <div class="icon">
           <i class="fa fa-plus-square"></i>

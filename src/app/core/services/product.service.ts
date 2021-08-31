@@ -22,6 +22,13 @@ export class ProductService {
                 
               }
 
+
+  getProductFromCategory(category: string): Promise <any>{
+    const Products = Parse.Object.extend('products');
+      const query = new Parse.Query(Products);
+      query.equalTo("category", category);
+      return query.find();
+  }
   getProductProperties(province: string, agency: string): Promise <any> {   
     console.log(agency);
      console.log(this.stateService.getDeliveryTime(province));

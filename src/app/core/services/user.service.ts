@@ -18,7 +18,7 @@ export class UserService {
   }
 
   isAdmin(user: string): boolean{      
-    if(user == 'buttymanager' || user == 'buttycomercial'  || user == 'buttyoperaciones' || user == 'buttyekonomico'){
+    if(user == 'buttymanager' || user == 'buttycomercial'  || user == 'buttyoperaciones' || user == 'buttyekonomico' || user == 'comercial'){
       return true;
     }else{
       return false;
