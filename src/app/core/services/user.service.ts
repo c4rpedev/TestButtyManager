@@ -27,7 +27,15 @@ export class UserService {
 
   isSucursal(user: string): boolean{
      
-    if(user == 'sucursalhol' || user == 'sucursalstgo'  || user == 'sucursalhab' || user == 'sucursalmtz' || user == 'restaurante1' || user == 'santamarta'){
+    if(user == 'sucursalhol' || user == 'sucursalstgo'  || user == 'sucursalhab' || user == 'sucursalmtz'  || user == 'santamarta'){
+      return true;
+    }else{
+      return false;
+    }
+  }
+  isRestaurant(user: string): boolean{
+     
+    if(user ==  'restaurante1'){
       return true;
     }else{
       return false;

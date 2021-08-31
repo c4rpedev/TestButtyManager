@@ -16,6 +16,7 @@ export class SidebarComponent implements OnInit {
   isOpened: String;
   admin: boolean;
   sucursal: boolean;
+  restaurant: boolean;
   complainsCount: number =0;
   ordersCount: number =0;
   public screenWidth: any;
@@ -36,6 +37,7 @@ export class SidebarComponent implements OnInit {
       this.user = user.nickname;
       this.admin = this.userService.isAdmin(this.user);
       this.sucursal = this.userService.isSucursal(this.user);
+      this.restaurant = this.userService.isRestaurant(this.user);
       this.orderService.getOrder(this.user).then(res=>{
         console.log('RESSSSS');
         for (const order of res) {

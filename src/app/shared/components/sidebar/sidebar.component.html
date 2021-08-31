@@ -22,7 +22,7 @@
         </div>
         <span>Productos</span>
       </div>
-      <div class="links" [routerLink]="['/list-product-sucursal']" (click)="openMenu()" *ngIf="sucursal">
+      <div class="links" [routerLink]="['/list-product-sucursal']" (click)="openMenu()" *ngIf="restaurant">
         <div class="icon">
           <i class="fa fa-shopping-cart"></i>
         </div>
@@ -40,7 +40,7 @@
       </div>
       <span>Reportes</span>
     </div> 
-    <div class="links" [routerLink]="['/list-complain']" (click)="openMenu()" *ngIf="!sucursal">
+    <div class="links" [routerLink]="['/list-complain']" (click)="openMenu()" *ngIf="!sucursal && !restaurant">
       <div class="icon">
         <i class="fa fa-archive"></i>
       </div>
