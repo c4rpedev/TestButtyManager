@@ -340,7 +340,12 @@ export class ListOrdersComponent implements OnInit  {
 
   addOrder() {    
     this.router.navigate(['/b']);
-    this.router.navigateByUrl('/list-product', { state: {who: "order"}});  
+    if(this.user == 'patugente'){
+      this.router.navigateByUrl('/add-order-sucursal')
+    }else{
+      this.router.navigateByUrl('/list-product', { state: {who: "order"}}); 
+    }
+     
   };
 
   deleteOrder(order: any){

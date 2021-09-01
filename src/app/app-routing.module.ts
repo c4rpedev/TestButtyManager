@@ -4,6 +4,7 @@ import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { EditOrderComponent } from './pages/order/edit-order/edit-order.component';
 import { LoginComponent } from './pages/login/login.component';
 import { AddOrderComponent } from './pages/order/add-order/add-order.component';
+import { AddOrderSucursalComponent } from './pages/order/add-order-sucursal/add-order-sucursal.component';
 import { ListOrdersComponent } from './pages/order/list-orders/list-orders.component';
 import { ListProductsComponent } from './pages/product/list-products/list-products.component';
 import { ListProductsSucursalComponent } from './pages/product/list-products-sucursal/list-products-sucursal.component';
@@ -33,6 +34,7 @@ const routes: Routes = [
   //-- Order --//
   { path: 'orders', component: ListOrdersComponent},
   { path: 'add-order', component: AddOrderComponent},
+  { path: 'add-order-sucursal', component: AddOrderSucursalComponent},
   { path: 'edit-order', component: EditOrderComponent},
 
   //-- Print --//

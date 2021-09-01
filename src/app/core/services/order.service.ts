@@ -50,6 +50,27 @@ export class OrderService {
       }
     })();
   }
+
+  createOrderPatugente(order: Order, url: string [], user: string){
+    (async () => {
+      const myNewObject = new Parse.Object('order');
+      myNewObject.set('orderId', order.orderId);
+      myNewObject.set('orderClientName', order.orderClientName);
+      myNewObject.set('orderRecieverName', order.orderRecieverName);
+      myNewObject.set('orderProvince', order.orderProvince);     
+      myNewObject.set('orderMobile', order.orderMobile);       
+      myNewObject.set('orderAgency', user);
+      myNewObject.set('orderInvoice', new Parse.File("factura.pdf", { uri: url[0].toString() }));
+      
+      try {
+        const result = await myNewObject.save();
+        // Access the Parse Object attributes using the .GET method
+        console.log('order created', result);
+      } catch (error) {
+        console.error('Error while creating order: ', error);
+      }
+    })();
+  }
   updateOrder(order: Order, orderId: string, img: string, hasAlbaran: boolean){
     console.log('asdfsd');
     

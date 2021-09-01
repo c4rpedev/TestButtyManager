@@ -24,6 +24,7 @@ import { ProductModule } from './pages/product/product.module';
 import { ListOrdersComponent } from './pages/order/list-orders/list-orders.component';
 import { ReportComponent } from './pages/report/report.component';
 import { AddOrderComponent } from './pages/order/add-order/add-order.component';
+import { AddOrderSucursalComponent } from './pages/order/add-order-sucursal/add-order-sucursal.component';
 import { LoginComponent } from './pages/login/login.component';
 import { EditOrderComponent } from './pages/order/edit-order/edit-order.component';
 import { AddComplainComponent } from './pages/complain/add-complain/add-complain.component';
@@ -56,6 +57,7 @@ Parse.initialize(environment.PARSE_APP_ID, environment.PARSE_JS_KEY, );
     ListOrdersComponent,
     ReportComponent,
     AddOrderComponent,
+    AddOrderSucursalComponent,
     LoginComponent,
     EditOrderComponent,
     AddComplainComponent,    
@@ -66,8 +68,7 @@ Parse.initialize(environment.PARSE_APP_ID, environment.PARSE_JS_KEY, );
     EditProvinceComponent,
     EditTransportComponent,
     SendSmsComponent,
-    SucursalComponent,
-     
+    SucursalComponent,    
       
   ],
   imports: [
