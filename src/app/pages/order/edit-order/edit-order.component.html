@@ -197,7 +197,7 @@
 </option>
 </select>
     </label>
-    <label *ngIf="admin && (user!='buttycomercial') &&  !(order.state == 'Revisado' || order.state == 'Cancelado')">
+    <label *ngIf="admin && (user!='buttycomercial' && user!='comercial') &&  !(order.state == 'Revisado' || order.state == 'Cancelado')">
       <span>Sucursal</span>
       <select  [(ngModel)]="order.orderSucursal"  
       
