@@ -21,6 +21,7 @@ import { GetProvincesService } from 'src/app/core/services/get-provinces.service
 import { FormControl, FormGroup } from '@angular/forms';
 import { DatePipe } from '@angular/common';
 import { stringify } from '@angular/compiler/src/util';
+import { SucursalService } from 'src/app/core/services/sucursal.service';
 
 export interface PeriodicElement {
   name: string;
@@ -39,7 +40,7 @@ export const CONDITIONS_FUNCTIONS = {
   // search method base on conditions list value 
   "is-equal": function (value, filterdValue) {
     let valueF = value.toString().toLowerCase();
-    return valueF.indexOf(filterdValue) !== -1;
+      return (valueF.indexOf(filterdValue) !== -1 );
   },
   "is-not-equal": function (value, filterdValue) {
     let valueF = value.toString().toLowerCase();
@@ -81,6 +82,7 @@ export class ListOrdersComponent implements OnInit  {
   provinces: any [] = [];
   municipios: any [] = [];
   transporte: any [] = [];
+  sucursalArray: any [] = [];
   public displayedColumns: string[]; 
 
 
@@ -111,6 +113,7 @@ export class ListOrdersComponent implements OnInit  {
               private municipioService: MunicipioService,
               private provinceService: GetProvincesService,
               private transportService: TransportService,
+              private sucursalService: SucursalService,
               public auth: AuthService,
                 @Inject(DOCUMENT) public document: Document) {
                 this.router.routeReuseStrategy.shouldReuseRoute = () => false;
@@ -126,6 +129,13 @@ export class ListOrdersComponent implements OnInit  {
       this.provinces = this.provinceService.getProvinces(); 
       this.transportService.getTransport().then(res =>{
         this.transporte = res;           
+      });
+      this.sucursalService.getSucursal().then(res =>{
+        this.sucursalArray = res;  
+        console.log('Sucursal');
+        console.log(this.sucursalArray);
+        
+                 
       });
       if(this.userService.isSucursal(this.user)){
         this.orderService.getOrderSucursal(this.user).then(res=>{
@@ -187,7 +197,7 @@ export class ListOrdersComponent implements OnInit  {
           });          
           this.dataSource = new MatTableDataSource<Order>(this.orders);
           
-          console.log(this.dataSource);
+       
           this.dataSource.paginator = this.paginator;
           this.dataSource.sortingDataAccessor = (item:any, property:any) => {
             switch (property) {
@@ -210,7 +220,7 @@ export class ListOrdersComponent implements OnInit  {
                   break;
                 }
               }
-              if (searchCondition && searchCondition !== "none") {               
+              if (searchCondition && searchCondition !== "none" ) {   
                 if (
                   filtre.methods[searchCondition](p.attributes[key], filtre.values[key]) ===
                   false
@@ -231,7 +241,7 @@ export class ListOrdersComponent implements OnInit  {
           this.checkState();     
           this.loading = false;
           if(this.admin || this.sucursal){
-            this.displayedColumns =  ['id', 'date', 'agency', 'client', 'products', 'reciver', 'province', 'municipio','mobile','phone', 'state', 'accions'];
+            this.displayedColumns =  ['id', 'date', 'agency','sucursal', 'client', 'products', 'reciver', 'province', 'municipio','mobile','phone', 'state', 'accions'];
        }else{
         this.displayedColumns =  ['id', 'date', 'client', 'products', 'reciver', 'province', 'municipio','mobile','phone', 'state', 'accions'];
        }
@@ -247,6 +257,7 @@ export class ListOrdersComponent implements OnInit  {
   initEqualOption(){
     this.searchCondition.orderId = 'is-equal';
     this.searchCondition.orderAgency = 'is-equal';
+    this.searchCondition.orderSucursal = 'is-equal';
     this.searchCondition.orderClientName = 'is-equal';
     this.searchCondition.orderRecieverName = 'is-equal';
     this.searchCondition.orderProvince = 'is-equal';
@@ -264,8 +275,7 @@ export class ListOrdersComponent implements OnInit  {
       conditions: this.searchCondition,
       methods: this._filterMethods,
     };
-    console.log('SEART');
-    console.log(searchFilter);
+    
     this.dataSource.filter = searchFilter;
   }
   
@@ -284,8 +294,7 @@ export class ListOrdersComponent implements OnInit  {
       conditions: this.searchCondition,
       methods: this._filterMethodsEs,
     };
-    console.log('SEART');
-    console.log(searchFilter);
+   
     this.dataSource.filter = searchFilter;
   }
 
@@ -305,10 +314,7 @@ export class ListOrdersComponent implements OnInit  {
     this.admin = this.userService.isAdmin(this.user);
   }
   checkState(){
-    for (let order of this.orders) {
-      console.log('Order');
-      console.log(this.orders);
-      
+    for (let order of this.orders) {    
       let d1 = new Date();
       var diff = Math.abs(order.attributes.createdAt.getTime() - d1.getTime());
       var diffDays = Math.ceil(diff / (1000 * 3600 * 24));  

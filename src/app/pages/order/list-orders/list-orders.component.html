@@ -108,7 +108,7 @@
           <td mat-cell *matCellDef="let element"> {{element.attributes.createdAt | date}} </td>
         </ng-container>
     
-        <!-- Weight Column -->
+        <!-- Agency Column -->
         <ng-container matColumnDef="agency" >
           <th mat-header-cell *matHeaderCellDef>
             <div class="header" [matMenuTriggerFor]="menu">
@@ -140,6 +140,40 @@
             </mat-menu>
           </th>
           <td mat-cell *matCellDef="let element"> {{element.attributes.orderAgency}} </td>
+        </ng-container>
+
+        <!-- Sucursal Column -->
+        <ng-container matColumnDef="sucursal" >
+          <th mat-header-cell *matHeaderCellDef>
+            <div class="header" [matMenuTriggerFor]="menu">
+              Sucursal <i class="fa fa-filter"></i>  
+            </div>
+            <mat-menu #menu>             
+              <div mat-menu-item mat-filter-item [disableRipple]="true">
+                <mat-form-field>
+                  <mat-select [panelClass]="'mat-elevation-z10'" placeholder='Condiciones' [(value)]="searchCondition.orderSucursal">
+                    <mat-option *ngFor="let  condition of conditionsList" [value]="condition.value">{{condition.label}}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+    
+              <div mat-menu-item mat-filter-item [disableRipple]="true">
+                <mat-form-field>
+                  <!-- <input matInput placeholder="Atributos" [(ngModel)]="searchValue.orderAgency"> -->
+                  <mat-select [panelClass]="'mat-elevation-z10'" placeholder='Atributos' [(value)]="searchValue.orderSucursal">
+                    <mat-option *ngFor="let s of sucursalArray" [value]="s.attributes.user">{{s.attributes.user}}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+    
+              <div mat-menu-item mat-filter-item [disableRipple]="true">
+                <button mat-raised-button (click)="clearColumn('orderSucursal')">Limpiar</button>
+                <button mat-raised-button color="primary" (click)="applyFilter()">Buscar</button>
+    
+              </div>
+            </mat-menu>
+          </th>
+          <td mat-cell *matCellDef="let element"> {{element.attributes.orderSucursal}} </td>
         </ng-container>
     
         <!-- Symbol Column -->
@@ -205,7 +239,7 @@
               </mat-menu>
       
             </th>
-            <td mat-cell *matCellDef="let element">  <p *ngFor="let product of element.attributes.productArray">{{product.name}}</p> </td>
+            <td mat-cell *matCellDef="let element">  <p  >{{element.attributes.productArray[0].name}}</p> <p class="see__more" *ngIf="element.attributes.productArray.length > 1" (click)="editOrder(element.attributes, element.id)">Ver más</p></td>
           </ng-container>
 
             <!-- reciver Column -->
