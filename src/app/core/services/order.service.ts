@@ -93,7 +93,7 @@ export class OrderService {
         myNewObject.set('orderSucursal', order.orderSucursal);
         myNewObject.set('orderNote', order.orderNote);
         myNewObject.set('orderCancelMotive', order.orderCancelMotive);
-        if(hasAlbaran){       
+        if(hasAlbaran && order.state != 'Finalizado'){       
            myNewObject.set('orderAlbaran', new Parse.File("albaranes.jpg", { uri: img })); 
         }
         
