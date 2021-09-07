@@ -41,8 +41,11 @@ export class UserService {
     }
   }
   returnMail(user: string): string{     
-    if(user ==  'buttymanager'){
-      return 'alexandromag24@gmail.com';
+    if(user ==  'destinocuba'){
+      return 'tonet@destinocubaagency.com';
+    }
+    if(user ==  'buttymaster'){
+      return 'elikeen910911@gmail.com';
     }else{
       return 'false';
     }

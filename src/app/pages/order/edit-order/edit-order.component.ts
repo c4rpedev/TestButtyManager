@@ -68,7 +68,7 @@ export class EditOrderComponent implements OnInit {
       console.log('tests');        
       console.log(this.sucursalName);
     });
-    this.sendEmail();
+    
   }
  
   photo(event: any) {
@@ -83,32 +83,38 @@ export class EditOrderComponent implements OnInit {
       };    
 }
 sendEmail(){
-  let emailuser = this.userService.returnMail('buttymanager');
-  Email.send({
-    Host : 'smtp.elasticemail.com',
-    Username : 'buttymanager@gmail.com',
-    Password : '050DF30919104610A6C9C87876384842B48E',
-    To : emailuser,
-    From : 'buttymanager@gmail.com',
-    Subject : `Pedido ${this.order.orderId} Finalizado`,
-    Body : `
-    <b>Nuestro equipo le notifica que el pedido.</b> <br/> <b>Número: ${this.order.orderId} <b/> se encuentra Finalizado.<br/> Le deseamos un buen día`
-    }).then( message => {alert(message); } );
+  let emailuser = this.userService.returnMail(this.user);
+    if(emailuser != 'false'){
+      Email.send({
+        Host : 'smtp.elasticemail.com',
+        Username : 'buttymanager@gmail.com',
+        Password : '050DF30919104610A6C9C87876384842B48E',
+        To : emailuser,
+        From : 'buttymanager@gmail.com',
+        Subject : `Pedido ${this.order.orderId} Finalizado`,
+        Body : `
+        <b>Nuestro equipo le notifica que el pedido.</b> <br/> <b>Número: ${this.order.orderId} <b/> se encuentra Finalizado.<br/> Para su comprobación le enviamos el albarán adjunto. Le deseamos un buen día`,
+        Attachments : [
+          {
+            name : this.order.orderId+'.jpg',
+            path : this.img.toString()
+          }]
+        }).then( message => {alert(message); } );
+    } 
 }
   onSubmit(form: NgForm){
     // var albaranes = 'albaranes.jpg'
     var hasAlbaran = false;
     console.log(form);
-    // if(this.order.state == 'Finalizado'){
-    //   this.sendEmail();
-    // }
+    if(this.order.state == 'Finalizado'){
+       this.sendEmail();
+    }
     if(form.valid || form.disabled){
       if( this.order.state != 'Nuevo' && this.order.state != 'Revisado' && this.order.state != 'En Proceso'){
         hasAlbaran = true
 
        }
-      console.log(this.order.orderSucursal);
-      
+    
       this.orderService.updateOrder(this.order, this.orderId, this.img.toString(), hasAlbaran);
       Swal.fire({
         position: 'top-end',
