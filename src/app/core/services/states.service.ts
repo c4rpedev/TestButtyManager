@@ -10,8 +10,7 @@ export class StatesService {
 
   constructor(private provinces: GetProvincesService) { }
 
-  getDeliveryTime(province: string){
-    console.log(this.provincesArray);
+  getDeliveryTime(province: string){    
     for (const p of this.provincesArray) {
       if(p.name == province){
         return 5;        

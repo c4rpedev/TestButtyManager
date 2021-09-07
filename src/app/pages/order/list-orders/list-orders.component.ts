@@ -84,6 +84,8 @@ export class ListOrdersComponent implements OnInit  {
   municipios: any [] = [];
   transporte: any [] = [];
   sucursalArray: any [] = [];
+
+  albaranes: string = 'albaranes.jpg'
   public displayedColumns: string[]; 
 
 

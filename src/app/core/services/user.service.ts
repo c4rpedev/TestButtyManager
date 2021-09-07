@@ -33,12 +33,18 @@ export class UserService {
       return false;
     }
   }
-  isRestaurant(user: string): boolean{
-     
+  isRestaurant(user: string): boolean{     
     if(user ==  'restaurante1' || user ==  'masterpizza'){
       return true;
     }else{
       return false;
+    }
+  }
+  returnMail(user: string): string{     
+    if(user ==  'buttymanager'){
+      return 'alexandromag24@gmail.com';
+    }else{
+      return 'false';
     }
   }
 

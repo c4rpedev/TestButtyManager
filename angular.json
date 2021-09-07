@@ -38,7 +38,8 @@
               "src/assets/fonts/font-awesome/css/font-awesome.min.css"
             ],
             "scripts": [
-              "src/assets/b4/js/bootstrap.min.js"             
+              "src/assets/b4/js/bootstrap.min.js" ,            
+              "src/assets/js/smtp.js"             
             ]
           },
           "configurations": {

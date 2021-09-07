@@ -5,12 +5,15 @@ import { map } from 'rxjs/operators';
 import { Order } from 'src/app/core/models/order';
 import { GetProvincesService } from 'src/app/core/services/get-provinces.service';
 import { OrderService } from 'src/app/core/services/order.service';
+
 import Swal from 'sweetalert2';
 import { NgForm } from '@angular/forms';
 import { SucursalService } from 'src/app/core/services/sucursal.service';
-
+import '../../../../assets/js/smtp.js';
+declare let Email: any;
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
 import { SendSmsComponent } from '../send-sms/send-sms.component';
+import { UserService } from 'src/app/core/services/user.service';
 @Component({
   selector: 'app-edit-order',
   templateUrl: './edit-order.component.html',
@@ -35,10 +38,12 @@ export class EditOrderComponent implements OnInit {
     private router: Router,
     private sucursalService: SucursalService,
     private orderService: OrderService,
+    private userService: UserService,
     public dialog: MatDialog,
   ) { }
 
   ngOnInit(): void {    
+  
     this.order = history.state.order;
     this.img=  history.state.order.orderAlbaran._url;    
     this.orderId = history.state.orderId;
@@ -63,6 +68,7 @@ export class EditOrderComponent implements OnInit {
       console.log('tests');        
       console.log(this.sucursalName);
     });
+    this.sendEmail();
   }
  
   photo(event: any) {
@@ -76,11 +82,26 @@ export class EditOrderComponent implements OnInit {
         this.img = reader.result;  
       };    
 }
+sendEmail(){
+  let emailuser = this.userService.returnMail('buttymanager');
+  Email.send({
+    Host : 'smtp.elasticemail.com',
+    Username : 'buttymanager@gmail.com',
+    Password : '050DF30919104610A6C9C87876384842B48E',
+    To : emailuser,
+    From : 'buttymanager@gmail.com',
+    Subject : `Pedido ${this.order.orderId} Finalizado`,
+    Body : `
+    <b>Nuestro equipo le notifica que el pedido.</b> <br/> <b>Número: ${this.order.orderId} <b/> se encuentra Finalizado.<br/> Le deseamos un buen día`
+    }).then( message => {alert(message); } );
+}
   onSubmit(form: NgForm){
     // var albaranes = 'albaranes.jpg'
     var hasAlbaran = false;
     console.log(form);
-    
+    // if(this.order.state == 'Finalizado'){
+    //   this.sendEmail();
+    // }
     if(form.valid || form.disabled){
       if( this.order.state != 'Nuevo' && this.order.state != 'Revisado' && this.order.state != 'En Proceso'){
         hasAlbaran = true
