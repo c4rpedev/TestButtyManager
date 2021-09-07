@@ -34,7 +34,7 @@ export class ListProductsComponent implements OnInit {
   user: string;
   term: string;
   loading: boolean;
-  categorys: any = ['Combo', 'Producto', 'Restaurante 1' ];
+  categorys: any = ['Combo', 'Producto', 'restaurante1', 'masterpizza' ];
   productState: boolean; 
   
   

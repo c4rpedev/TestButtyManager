@@ -57,8 +57,7 @@ export class ListProductsSucursalComponent implements OnInit {
   }
 
   ngOnInit(): void {
-     this.auth.user$.subscribe(user =>{
-      
+     this.auth.user$.subscribe(user =>{    
        this.user = user.nickname;    
        this.isAdmin();        
       this.who= history.state.who;       
@@ -138,9 +137,9 @@ export class ListProductsSucursalComponent implements OnInit {
   }
 
   getProductForProvince() {
-    
+  
       this.loading = true;
-      this.service.getProductFromCategory('Restaurante 1').then(res=>{
+      this.service.getProductFromCategory(this.user).then(res=>{
         this.products = res; 
         this.loading = false;
         console.log(this.products);

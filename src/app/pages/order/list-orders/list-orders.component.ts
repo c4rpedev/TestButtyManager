@@ -70,6 +70,7 @@ export class ListOrdersComponent implements OnInit  {
   user: string;
   admin: boolean;
   sucursal: boolean;
+  restaurante: boolean;
   loading: boolean;
   // displayedColumns: string[] = ['id', 'date', 'agency', 'client', 'products', 'reciver', 'province', 'municipio','phone', 'state', 'accions'];
   
@@ -126,16 +127,13 @@ export class ListOrdersComponent implements OnInit  {
     this.auth.user$.subscribe(user =>{
       this.loading = true;
       this.user = user.nickname;  
+      this.restaurante = this.userService.isRestaurant(this.user);   
       this.provinces = this.provinceService.getProvinces(); 
       this.transportService.getTransport().then(res =>{
         this.transporte = res;           
       });
       this.sucursalService.getSucursal().then(res =>{
         this.sucursalArray = res;  
-        console.log('Sucursal');
-        console.log(this.sucursalArray);
-        
-                 
       });
       if(this.userService.isSucursal(this.user)){
         this.orderService.getOrderSucursal(this.user).then(res=>{
@@ -184,6 +182,7 @@ export class ListOrdersComponent implements OnInit  {
           this.isAdmin();                
           this.loading = false;
            this.sucursal = this.userService.isSucursal(this.user);   
+           
            if(this.admin || this.sucursal){
                 this.displayedColumns =  ['id', 'date', 'agency', 'client', 'products', 'reciver', 'province', 'municipio','mobile','phone', 'state', 'accions'];
            }else{
@@ -240,7 +239,7 @@ export class ListOrdersComponent implements OnInit  {
           this.isAdmin();     
           this.checkState();     
           this.loading = false;
-          if(this.admin || this.sucursal){
+          if(this.admin || this.sucursal || this.restaurante){
             this.displayedColumns =  ['id', 'date', 'agency','sucursal', 'client', 'products', 'reciver', 'province', 'municipio','mobile','phone', 'state', 'accions'];
        }else{
         this.displayedColumns =  ['id', 'date', 'client', 'products', 'reciver', 'province', 'municipio','mobile','phone', 'state', 'accions'];

@@ -35,7 +35,7 @@ export class UserService {
   }
   isRestaurant(user: string): boolean{
      
-    if(user ==  'restaurante1'){
+    if(user ==  'restaurante1' || user ==  'masterpizza'){
       return true;
     }else{
       return false;

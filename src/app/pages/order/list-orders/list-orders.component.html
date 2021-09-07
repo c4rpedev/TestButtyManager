@@ -11,8 +11,8 @@
       </div>
   </div>
 </div>
-<div class="list__filter__group" role="group" *ngIf="!sucursal">
-  <button *ngIf="!admin && !sucursal" type="button" (click)="addOrder()" >Realizar Pedido</button>   
+<div class="list__filter__group" role="group" *ngIf="!sucursal && !restaurante">
+  <button *ngIf="!admin && !sucursal && !restaurante" type="button" (click)="addOrder()" >Realizar Pedido</button>   
 </div>
 <div class="card">
   <div class="table-responsive">
