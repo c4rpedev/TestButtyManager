@@ -46,7 +46,17 @@ export class UserService {
     }
     if(user ==  'buttymaster'){
       return 'elikeen910911@gmail.com';
-    }else{
+    }
+    if(user ==  'villarejo'){
+      return 'carlosrv1218@gmail.com';
+    }
+    if(user ==  'tushoponline'){
+      return 'contacto@tsotienda.com';
+    }   
+    if(user ==  'raiko'){
+      return 'bellomichel12@gmail.com';
+    }
+    else{
       return 'false';
     }
   }

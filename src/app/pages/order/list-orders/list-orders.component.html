@@ -461,7 +461,7 @@
           <div class="badge bg-primary text-wrap" style="width: 6rem;" *ngIf="element.attributes.state == 'Revisado'">
             {{element.attributes.state}}     
           </div>
-          <div class="badge bg-success text-wrap" style="width: 6rem;" *ngIf="element.attributes.state == 'En Tiempo'">
+          <div class="badge bg-success text-wrap" style="width: 6rem;" *ngIf="element.attributes.state.includes('En Tiempo')">
             {{element.attributes.state}}     
           </div>
           <div class="badge bg-dark text-wrap" style="width: 6rem;" *ngIf="element.attributes.state == 'Finalizado'">
@@ -470,10 +470,10 @@
           <div class="badge bg-secondary text-wrap" style="width: 6rem;" *ngIf="element.attributes.state == 'Cancelado'">
             {{element.attributes.state}}     
           </div> 
-          <div class="badge bg-warning text-wrap" style="width: 6rem;" *ngIf="element.attributes.state == 'En Termino'">
+          <div class="badge bg-warning text-wrap" style="width: 6rem;" *ngIf="element.attributes.state.includes('En Termino')">
             {{element.attributes.state}}     
           </div>
-          <div class="badge bg-danger text-wrap" style="width: 6rem;" *ngIf="element.attributes.state == 'Atrasado'">
+          <div class="badge bg-danger text-wrap" style="width: 6rem;" *ngIf="element.attributes.state.includes('Atrasado')">
             {{element.attributes.state}}     
           </div> </td>
         </ng-container>

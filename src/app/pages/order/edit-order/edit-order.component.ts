@@ -83,7 +83,7 @@ export class EditOrderComponent implements OnInit {
       };    
 }
 sendEmail(){
-  let emailuser = this.userService.returnMail(this.user);
+  let emailuser = this.userService.returnMail(this.order.orderAgency);
     if(emailuser != 'false'){
       Email.send({
         Host : 'smtp.elasticemail.com',
@@ -99,7 +99,7 @@ sendEmail(){
             name : this.order.orderId+'.jpg',
             path : this.img.toString()
           }]
-        }).then( message => {alert(message); } );
+        }).then( message => {alert("Correo de confirmación enviado a Agencia"); } );
     } 
 }
   onSubmit(form: NgForm){

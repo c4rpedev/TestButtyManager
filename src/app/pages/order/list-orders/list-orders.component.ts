@@ -321,16 +321,18 @@ export class ListOrdersComponent implements OnInit  {
       var diffDays = Math.ceil(diff / (1000 * 3600 * 24));  
      
       var deliveryTime = this.stateService.getDeliveryTime(order.attributes.orderProvince);
-      if(order.attributes.state == "En Proceso"){
+      if(order.attributes.state == "En Proceso" || order.attributes.state == "En Tiempo" || order.attributes.state == "En Termino" || order.attributes.state == "Atrasado"){
         if((diffDays - deliveryTime == 1) || diffDays == deliveryTime){    
           this.orderService.updateOrderState(order.id, 'En Termino')
           console.log('En termino');        
         }else if(diffDays < deliveryTime){
-          this.orderService.updateOrderState(order.id, 'En Tiempo')
-          console.log('En tiempo');
+          //this.orderService.updateOrderState(order.id, 'En Tiempo')
+          this.orderService.updateOrderState(order.id, 'En Tiempo'+' '+(deliveryTime-diffDays+1))
+          console.log('En tiempo'+' '+(deliveryTime-diffDays+1));
         }else if(diffDays > deliveryTime){
-          this.orderService.updateOrderState(order.id, 'Atrasado')
-          console.log('Atrasado');
+          //this.orderService.updateOrderState(order.id, 'Atrasado')
+          this.orderService.updateOrderState(order.id, 'Atrasado'+' '+(diffDays-deliveryTime))
+          console.log('Atrasado'+' '+(diffDays-deliveryTime));
           
         }
       }
