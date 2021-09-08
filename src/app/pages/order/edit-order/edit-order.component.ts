@@ -106,9 +106,9 @@ sendEmail(){
     // var albaranes = 'albaranes.jpg'
     var hasAlbaran = false;
     console.log(form);
-    // if(this.order.state == 'Finalizado'){
-    //    this.sendEmail();
-    // }
+    if(this.order.state == 'Finalizado'){
+       this.sendEmail();
+    }
     if(form.valid || form.disabled){
       if( this.order.state != 'Nuevo' && this.order.state != 'Revisado' && this.order.state != 'En Proceso'){
         hasAlbaran = true

@@ -15,6 +15,16 @@
   <button *ngIf="!admin && !sucursal && !restaurante" type="button" (click)="addOrder()" >Realizar Pedido</button>   
 </div>
 <div class="card">
+  <!-- <mat-form-field appearance="fill">
+    <mat-label>Enter a date range</mat-label>
+    <mat-date-range-input [rangePicker]="picker">
+      <input matStartDate  [(ngModel)]="startdate"  placeholder="Start date">
+      <input matEndDate [(ngModel)]="enddate"  placeholder="End date">
+    </mat-date-range-input>
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-date-range-picker #picker></mat-date-range-picker>
+  </mat-form-field> -->
+ 
   <div class="table-responsive">
     <div class="mat-elevation-z8">
      <div class="order__spinner" *ngIf="loading">
