@@ -436,20 +436,20 @@
                   <!-- <input matInput placeholder="Atributos" [(ngModel)]="searchValue.orderId"> -->
                   <mat-select [panelClass]="'mat-elevation-z10'" placeholder='Atributos' [(ngModel)]="searchValue.state">
                     <mat-option  value="Todos">Todos</mat-option>
-                    <mat-option  value="Nuevo">Nuevo</mat-option>
-                    <mat-option  value="Revisado">Revisado</mat-option>
-                    <mat-option  value="En Tiempo">En Tiempo</mat-option>
-                    <mat-option  value="En Termino">En Termino</mat-option>
-                    <mat-option  value="Atrasado">Atrasado</mat-option>
-                    <mat-option  value="Finalizado">Finalizado</mat-option>
-                    <mat-option  value=Cancelado>Cancelado</mat-option>
+                    <mat-option  value="nuevo">Nuevo</mat-option>
+                    <mat-option  value="revisado">Revisado</mat-option>
+                    <mat-option  value="en tiempo">En Tiempo</mat-option>
+                    <mat-option  value="en termino">En Termino</mat-option>
+                    <mat-option  value="atrasado">Atrasado</mat-option>
+                    <mat-option  value="finalizado">Finalizado</mat-option>
+                    <mat-option  value=cancelado>Cancelado</mat-option>
                   </mat-select>
                 </mat-form-field>
               </div>
     
               <div mat-menu-item mat-filter-item [disableRipple]="true">
                 <button mat-raised-button (click)="clearColumnES('state')">Limpiar</button>
-                <button mat-raised-button color="primary" (click)="applyFilterEs()">Buscar</button>
+                <button mat-raised-button color="primary" (click)="applyFilter()">Buscar</button>
     
               </div>
             </mat-menu>
