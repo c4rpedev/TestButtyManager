@@ -20,15 +20,15 @@
 
 
 <div class="d-flex card">
- 
+
   <form (ngSubmit)="onSubmit( f )"  #f="ngForm">
     <label>
       <span class="fname">ID </span>
-      <input type="text" 
-      class="form-control" 
-      [(ngModel)]="order.orderId" 
+      <input type="text"
+      class="form-control"
+      [(ngModel)]="order.orderId"
       [class.is-invalid]="orderId.invalid && orderId.touched"
-      required 
+      required
       [disabled]="!admin && !(order.state == 'Nuevo')"
       placeholder="Identificador de Pedido"
       name="orderId"
@@ -36,24 +36,24 @@
     </label>
     <label>
       <span class="fname">Agencia </span>
-      <input type="text" 
+      <input type="text"
       disabled
-      class="form-control" 
-      [(ngModel)]="order.orderAgency" 
+      class="form-control"
+      [(ngModel)]="order.orderAgency"
       [class.is-invalid]="orderAgency.invalid && orderAgency.touched"
-      required 
-      
+      required
+
       placeholder="Agencia"
       name="orderAgency"
       #orderAgency = "ngModel">
     </label>
     <label>
       <span class="fname">Cliente </span>
-      <input type="text" 
-      class="form-control" 
-      [(ngModel)]="order.orderClientName" 
+      <input type="text"
+      class="form-control"
+      [(ngModel)]="order.orderClientName"
       [class.is-invalid]="orderClientName.invalid && orderClientName.touched"
-      
+
       [disabled]="!admin && !(order.state == 'Nuevo')"
       placeholder="Nombre del Cliente"
       name="orderClientName"
@@ -61,37 +61,37 @@
     </label>
     <label>
       <span class="lname">Recibe</span>
-      <input type="text" 
-      class="form-control" 
-      [(ngModel)]="order.orderRecieverName" 
+      <input type="text"
+      class="form-control"
+      [(ngModel)]="order.orderRecieverName"
       [class.is-invalid]="orderRecieverName.invalid && orderRecieverName.touched"
-      required 
+      required
       [disabled]="!admin && !(order.state == 'Nuevo')"
       placeholder="Nombre del que Recibe"
       name="orderRecieverName"
       #orderRecieverName = "ngModel">
     </label>
-   
+
     <label>
       <span>Provincia </span>
-      <input  
-      type="text" 
-      [(ngModel)]="order.orderProvince" 
-      class="form-control"  
+      <input
+      type="text"
+      [(ngModel)]="order.orderProvince"
+      class="form-control"
       disabled
       name="selectProvince"
       [class.is-invalid]="selectProvince.invalid && selectProvince.touched"
       #selectProvince="ngModel"
       required
-      >      
+      >
     </label>
     <label>
       <span>Municipio </span>
-      <input type="text" 
-      class="form-control" 
-      [(ngModel)]="order.orderMunicipio" 
+      <input type="text"
+      class="form-control"
+      [(ngModel)]="order.orderMunicipio"
       [class.is-invalid]="orderMunicipio.invalid && orderMunicipio.touched"
-      required 
+      required
       [disabled]="!admin || (user=='buttycomercial' && !(order.state == 'Nuevo'))"
       placeholder="Municipio"
       name="orderMunicipio"
@@ -99,75 +99,75 @@
     </label>
     <label>
       <span>Dirección </span>
-      <input type="text" 
-      class="form-control" 
-      [(ngModel)]="order.orderAddress" 
+      <input type="text"
+      class="form-control"
+      [(ngModel)]="order.orderAddress"
       [class.is-invalid]="orderAddress.invalid && orderAddress.touched"
-      required 
+      required
       [disabled]="!admin && !(order.state == 'Nuevo')"
       placeholder="Número de la casa, calle y entre calles"
       name="orderAddress"
       #orderAddress = "ngModel">
-      
+
     </label>
     <label>
       <span>Referencia</span>
-      <input type="text" 
-      class="form-control" 
-      [(ngModel)]="order.orderReference" 
+      <input type="text"
+      class="form-control"
+      [(ngModel)]="order.orderReference"
       [class.is-invalid]="orderReference.invalid && orderReference.touched"
-      
+
       [disabled]="!admin && !(order.state == 'Nuevo')"
       placeholder="Ingrese una referencia"
       name="orderReference"
-      #orderReference = "ngModel">      
+      #orderReference = "ngModel">
     </label>
-    
-    
-    
+
+
+
     <label>
-      
+
         <span>Teléfono Móvil</span>
-     
-          <input type="text" 
-      class="form-control" 
-      [(ngModel)]="order.orderMobile" 
+
+          <input type="text"
+      class="form-control"
+      [(ngModel)]="order.orderMobile"
       [class.is-invalid]="orderMobile.invalid && orderMobile.touched"
-      
+
       [disabled]="!admin && !(order.state == 'Nuevo')"
       placeholder="Número de teléfono"
       name="orderMobile"
       #orderMobile = "ngModel">
-      
-        
-        
-      
-    
-       
-       
-      
+
+
+
+
+
+
+
+
     </label>
     <label>
       <span>Teléfono Fijo</span>
-      <input type="text" 
-      class="form-control" 
-      [(ngModel)]="order.orderPhone" 
+      <input type="text"
+      class="form-control"
+      [(ngModel)]="order.orderPhone"
       [class.is-invalid]="orderPhone.invalid && orderPhone.touched"
-      
+
       [disabled]="!admin && !(order.state == 'Nuevo')"
       placeholder="Número de teléfono"
       name="orderPhone"
       #orderPhone = "ngModel">
     </label>
-   
+
     <label>
       <span>Estado </span>
-      <select 
-      [(ngModel)]="order.state" 
+      <select
+      [(ngModel)]="order.state"
       [class.is-invalid]="state.invalid && state.touched"
-      required 
+      required
       [disabled]="!admin || (user=='buttycomercial' && !(order.state == 'Nuevo'))"
-      
+
       name="state"
       #state = "ngModel"
       >
@@ -195,36 +195,39 @@
 <option value="Cancelado">
   Cancelado
 </option>
+<option *ngIf="order.state == 'Finalizado' || order.state == 'Archivado'" value="Archivado">
+  Archivado
+</option>
 </select>
     </label>
     <label *ngIf="admin && (user!='buttycomercial' && user!='comercial') &&  !(order.state == 'Revisado' || order.state == 'Cancelado')">
       <span>Sucursal</span>
-      <select  [(ngModel)]="order.orderSucursal"  
-      
-    class="form-select" 
+      <select  [(ngModel)]="order.orderSucursal"
+
+    class="form-select"
     name="orderSucursal"
-  
-    #orderSucursal="ngModel"                        
+
+    #orderSucursal="ngModel"
     >
-    
+
 <option *ngFor="let s of sucursalName" value={{s.attributes.user}}>
 {{s.attributes.name}}
 </option>
-</select>  
+</select>
     </label>
  <div class="row">
-   
+
      <label *ngIf="order.state == 'Cancelado'">
         <span>Motivos de cancelación</span>
-        <textarea [(ngModel)]="order.orderCancelMotive" 
-                  name="orderCancelMotive" 
+        <textarea [(ngModel)]="order.orderCancelMotive"
+                  name="orderCancelMotive"
                   [disabled]="!admin"
                   placeholder="Describa el motivo de la cancelación ..."
                   class="form-control"></textarea>
      </label>
-  
- 
-  <div class="col-lg-6">    
+
+
+  <div class="col-lg-6">
     <div class="card mb-3 shadow" *ngIf="(admin  && user!='buttycomercial') || order.state == 'Finalizado' || sucursal">
       <h3 class="text-center mt-2" *ngIf="admin || sucursal">
         <b>
@@ -241,16 +244,16 @@
           <img class="mb-3" src='{{img}}'  width="160" height="160" />
         </a>
         <div  *ngIf="(admin && user!='buttycomercial') || sucursal">
-          <input type="file" 
-          name="photo"          
+          <input type="file"
+          name="photo"
           accept="image/*"
-          class="form-control mb-4"  
-           [(ngModel)]="photosrc" 
+          class="form-control mb-4"
+           [(ngModel)]="photosrc"
           (change)="photo($event)" >
         </div>
-       
-        
-       
+
+
+
     </div>
     </div>
 
@@ -267,19 +270,19 @@
         <td><img class="border"   src="{{product.picture._url}}" alt=""></td>
         <td>{{product.name}}</td>
         <!-- <td>${{product.price}}</td> -->
-        
+
       </tr>
-     
+
       <tr>
-        
+
         <!-- <td><b>Coste Total + Transportación</b>:</td>
         <td>${{order.orderPrice}}</td> -->
       </tr>
-     
+
     </table>
    </div>
  </div>
-    
+
     <div class="row col-lg-12" *ngIf="(admin || sucursal) || (order.state == 'Nuevo')">
       <div class="col-lg-6">
         <button type="submit" >Actualizar Pedido</button>
@@ -287,11 +290,11 @@
       <div class="col-lg-6" *ngIf="(admin || sucursal)">
         <button type="submit" class="print__factura" (click)="print()">Imprimir Factura</button>
       </div>
-  
+
     </div>
-    
-  
-  
+
+
+
 </form>
  </div>
 </div>

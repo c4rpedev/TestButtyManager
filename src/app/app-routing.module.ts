@@ -1,3 +1,4 @@
+import { ListCompletedOrderComponent } from './pages/order/list-completed-order/list-completed-order.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
@@ -23,7 +24,7 @@ import { EditTransportComponent } from './pages/transport/edit-transport/edit-tr
 import { SucursalComponent } from './pages/sucursal/sucursal.component';
 
 const routes: Routes = [
- 
+
   //-- Product --//
   { path: '', component: ListOrdersComponent},
   { path: 'list-product', component: ListProductsComponent},
@@ -33,6 +34,7 @@ const routes: Routes = [
   { path: 'create-combo', component: CreateComboComponent},
   //-- Order --//
   { path: 'orders', component: ListOrdersComponent},
+  { path: 'orders-completed', component: ListCompletedOrderComponent},
   { path: 'add-order', component: AddOrderComponent},
   { path: 'add-order-sucursal', component: AddOrderSucursalComponent},
   { path: 'edit-order', component: EditOrderComponent},
@@ -45,12 +47,12 @@ const routes: Routes = [
   { path: 'edit-complain', component: EditComplainComponent},
   { path: 'list-complain', component: ListComplainComponent},
 
-  //-- User Related --//   
+  //-- User Related --//
   { path: 'login', component: LoginComponent},
   { path: 'registro', component: RegistroComponent},
 
   //-- Reports --//
-  { path: 'reports', component: ReportComponent},  
+  { path: 'reports', component: ReportComponent},
 
   //-- Province --//
   { path: 'edit-province', component: EditProvinceComponent},

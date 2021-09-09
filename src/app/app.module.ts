@@ -43,7 +43,8 @@ import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { SendSmsComponent } from './pages/order/send-sms/send-sms.component';
 import { FilterItemDirective } from "./filter-item.directive";
 import { SucursalComponent } from './pages/sucursal/sucursal.component';
-import { AutocompleteOffDirective }  from './core/autocomplete'
+import { AutocompleteOffDirective }  from './core/autocomplete';
+import { ListCompletedOrderComponent } from './pages/order/list-completed-order/list-completed-order.component'
 Parse.initialize(environment.PARSE_APP_ID, environment.PARSE_JS_KEY, );
 (Parse as any).serverURL = environment.serverURL;
 
@@ -68,7 +69,8 @@ Parse.initialize(environment.PARSE_APP_ID, environment.PARSE_JS_KEY, );
     EditProvinceComponent,
     EditTransportComponent,
     SendSmsComponent,
-    SucursalComponent,    
+    SucursalComponent,
+    ListCompletedOrderComponent,    
       
   ],
   imports: [

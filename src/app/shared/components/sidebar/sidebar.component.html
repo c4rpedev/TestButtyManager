@@ -15,6 +15,7 @@
       </div>
       <span>Pedidos</span><span class="badge rounded-pill bg-secondary alert__color" *ngIf="admin">{{ordersCount}}</span>
     </div>
+   
     
       <div class="links" [routerLink]="['/list-product']" (click)="openMenu()" *ngIf="admin && !sucursal && !isComercial()">
         <div class="icon">
@@ -45,6 +46,12 @@
         <i class="fa fa-archive"></i>
       </div>
        <span>Quejas</span><span class="badge rounded-pill bg-secondary alert__color" *ngIf="complains">{{complainsCount}}</span>
+    </div>
+    <div class="links" [routerLink]="['/orders-completed']" (click)="openMenu()" >
+      <div class="icon">
+        <i class="fa fa-bank"></i>
+      </div>
+      <span>Archivo</span>
     </div>
     <div class="links" [routerLink]="['/edit-province']" (click)="openMenu()" *ngIf="admin && !sucursal && !isComercial()">
       <div class="icon">
