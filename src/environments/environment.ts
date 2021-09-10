@@ -8,6 +8,13 @@ export const environment = {
   serverURL: 'https://buttyparse.herokuapp.com/parse'
 };
 
+// -- DEV
+// export const environment = {
+//   production: false,
+//   PARSE_APP_ID: 'developparse1942',
+//   PARSE_JS_KEY: '741852963741',
+//   serverURL: 'http://developparse.herokuapp.com/parse'
+// };
 //-- old
 // export const environment = {
 //   production: false,
