@@ -3,9 +3,9 @@
 // The list of file replacements can be found in `angular.json`.
 export const environment = {
   production: true,
-  PARSE_APP_ID: 'buttybd8803',
-  PARSE_JS_KEY: '880309113002021',
-  serverURL: 'https://buttyparse.herokuapp.com/parse'
+  PARSE_APP_ID: 'developparse1942',
+  PARSE_JS_KEY: '741852963741',
+  serverURL: 'http://developparse.herokuapp.com/parse'
 };
 
 //-- old

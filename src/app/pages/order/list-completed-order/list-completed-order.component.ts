@@ -146,6 +146,8 @@ export class ListCompletedOrderComponent implements OnInit  {
             res.forEach((element:any) => {
               this.orders.push(element);
             });
+
+            console.log(res + ' <--res!!')
             this.dataSource = new MatTableDataSource<Order>(this.orders);
 
             console.log(this.dataSource);
@@ -197,6 +199,8 @@ export class ListCompletedOrderComponent implements OnInit  {
           })
         }else{
           this.orderService.getOrderCompleted(this.user).then(res=>{
+            console.log(res + ' <--res!!')
+            console.log(res[0].attributes.orderAgency)
             res.forEach((element:any) => {
               this.orders.push(element);
             });

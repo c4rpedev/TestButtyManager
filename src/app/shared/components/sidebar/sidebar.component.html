@@ -4,19 +4,26 @@
       <img src="assets/images/logo.png">
       <h1>Buttymanager</h1>
     </div>
-    
+
     <button type="button" class="btn btn-outline-light open__sidebar" (click)="openMenu()"><i class="fa fa-list"></i></button>
   </div>
- 
-    <div class="links__container" [ngStyle]="{'display': isOpened}" *ngIf="auth.user$ | async as user"> 
+
+    <div class="links__container" [ngStyle]="{'display': isOpened}" *ngIf="auth.user$ | async as user">
     <div class="links" [routerLink]="['/orders']" (click)="openMenu()" >
       <div class="icon">
         <i class="fa fa-table"></i>
       </div>
       <span>Pedidos</span><span class="badge rounded-pill bg-secondary alert__color" *ngIf="admin">{{ordersCount}}</span>
     </div>
-   
-    
+
+    <div class="links" [routerLink]="['/orders-completed']" (click)="openMenu()" >
+      <div class="icon">
+        <i class="fa fa-table"></i>
+      </div>
+      <span>Pedidos Archivados</span>
+    </div>
+
+
       <div class="links" [routerLink]="['/list-product']" (click)="openMenu()" *ngIf="admin && !sucursal && !isComercial()">
         <div class="icon">
           <i class="fa fa-shopping-cart"></i>
@@ -35,12 +42,18 @@
         </div>
         <span>Añadir Productos</span>
       </div>
+      <div class="links" [routerLink]="['/list-category']" (click)="openMenu()" *ngIf="admin && !sucursal && !isComercial()">
+        <div class="icon">
+          <i class="fa fa-plus-square"></i>
+        </div>
+        <span>Categorías</span>
+      </div>
      <div class="links" [routerLink]="['/reports']"  (click)="openMenu()" *ngIf="admin && !isComercial()">
       <div class="icon">
         <i class="fa fa-bar-chart"></i>
       </div>
       <span>Reportes</span>
-    </div> 
+    </div>
     <div class="links" [routerLink]="['/list-complain']" (click)="openMenu()" *ngIf="!sucursal && !restaurant">
       <div class="icon">
         <i class="fa fa-archive"></i>
@@ -73,4 +86,4 @@
     </div>
   </div>
 
- </div> 
+ </div>

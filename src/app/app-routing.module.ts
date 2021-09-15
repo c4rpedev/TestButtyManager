@@ -1,3 +1,5 @@
+import { ListCategoryComponent } from './pages/product/list-category/list-category.component';
+import { AddCategoryComponent } from './pages/product/add-category/add-category.component';
 import { ListCompletedOrderComponent } from './pages/order/list-completed-order/list-completed-order.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
@@ -32,6 +34,11 @@ const routes: Routes = [
   { path: 'add-product', component: AddProductComponent},
   { path: 'edit-product', component: EditProductComponent},
   { path: 'create-combo', component: CreateComboComponent},
+
+  //-- Category --//
+  { path: 'add-category', component: AddCategoryComponent},
+  { path: 'list-category', component: ListCategoryComponent},
+
   //-- Order --//
   { path: 'orders', component: ListOrdersComponent},
   { path: 'orders-completed', component: ListCompletedOrderComponent},
