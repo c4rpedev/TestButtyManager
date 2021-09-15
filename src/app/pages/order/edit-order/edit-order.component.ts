@@ -106,24 +106,31 @@ sendEmail(){
     // var albaranes = 'albaranes.jpg'
     var hasAlbaran = false;
     console.log(form);
-    if(this.order.state == 'Finalizado'){
-       this.sendEmail();
-    }
+  
     if(form.valid || form.disabled){
       if( this.order.state != 'Nuevo' && this.order.state != 'Revisado' && this.order.state != 'En Proceso'){
         hasAlbaran = true
 
        }
     
-      this.orderService.updateOrder(this.order, this.orderId, this.img.toString(), hasAlbaran);
-      Swal.fire({
-        position: 'top-end',
-        icon: 'success',
-        title: 'Pedido actualizado',
-        showConfirmButton: false,
-        timer: 1500
-      })
-      this.router.navigate(['/orders']);
+      this.orderService.updateOrder(this.order, this.orderId, this.img.toString(), hasAlbaran).subscribe(
+        success =>{
+          console.log('Show MSG');
+          
+          Swal.fire({
+            position: 'top-end',
+            icon: 'success',
+            title: 'Pedido actualizado',
+            showConfirmButton: false,
+            timer: 1500
+          })
+          if(this.order.state == 'Finalizado'){
+              this.sendEmail();
+           }
+          this.router.navigate(['/orders']);
+        }
+      );
+    
     }else{
       Swal.fire({
         icon: 'error',

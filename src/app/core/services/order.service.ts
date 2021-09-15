@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Order } from '../models/order';
 import * as Parse from 'parse'
+import { Observable } from 'rxjs';
 
 
 @Injectable({
@@ -71,11 +72,10 @@ export class OrderService {
       }
     })();
   }
-  updateOrder(order: Order, orderId: string, img: string, hasAlbaran: boolean){
-    console.log('asdfsd');
-
-    console.log(img);
-
+  updateOrder(order: Order, orderId: string, img: string, hasAlbaran: boolean): Observable<boolean>{
+    return new Observable(observer => { 
+      console.log('In Service');
+      
     (async () => {
       const query = new Parse.Query('order');
       try {
@@ -93,11 +93,15 @@ export class OrderService {
         myNewObject.set('orderSucursal', order.orderSucursal);
         myNewObject.set('orderNote', order.orderNote);
         myNewObject.set('orderCancelMotive', order.orderCancelMotive);
+        myNewObject.set('state', order.state);
         if(hasAlbaran && order.state != 'Finalizado'){
            myNewObject.set('orderAlbaran', new Parse.File("albaranes.jpg", { uri: img }));
+           console.log("Poniendo albaran");
+           
         }
-
-        myNewObject.set('state', order.state);
+        observer.next(true);
+        observer.complete();
+        
         try {
           const response = await myNewObject.save();
           // You can use the "get" method to get the value of an attribute
@@ -113,14 +117,22 @@ export class OrderService {
           console.log(response.get('orderClientName'));
           console.log(response.get('orderRecieverName'));
           console.log('order updated', response);
+          observer.next(true);
+          observer.complete();
         } catch (error) {
           console.error('Error while updating order', error);
+          observer.error(error);
+          observer.complete();
           }
         } catch (error) {
           console.error('Error while retrieving object order', error);
+          observer.error(error);
+          observer.complete();
         }
     })();
-  }
+  
+  });
+}
 
   updateOrderState(orderId: string, state: string){
     (async () => {
