@@ -328,8 +328,8 @@ export class ListOrdersComponent implements OnInit  {
           console.log('En termino');
         }else if(diffDays < deliveryTime){
           //this.orderService.updateOrderState(order.id, 'En Tiempo')
-          this.orderService.updateOrderState(order.id, 'En Tiempo'+' '+(deliveryTime-diffDays+1))
-          console.log('En tiempo'+' '+(deliveryTime-diffDays+1));
+          this.orderService.updateOrderState(order.id, 'En Tiempo'+' '+(deliveryTime-diffDays))
+          console.log('En tiempo'+' '+(deliveryTime-diffDays));
         }else if(diffDays > deliveryTime){
           //this.orderService.updateOrderState(order.id, 'Atrasado')
           this.orderService.updateOrderState(order.id, 'Atrasado'+' '+(diffDays-deliveryTime))
