@@ -109,7 +109,7 @@ export class ProductService {
 
  
   public getAllProductProperties(province: string): Promise <any> {
-    if(this.stateService.getDeliveryTime(province) == 5){
+    if(this.stateService.getDeliveryProvince(province) == 5){
       const Products = Parse.Object.extend('products');
     const query = new Parse.Query(Products);
     const query2 = new Parse.Query(Products);
