@@ -33,7 +33,7 @@ export class ProductService {
     console.log(agency);
      console.log(this.stateService.getDeliveryTime(province));
      
-    if(this.stateService.getDeliveryTime(province) == 5){
+    if(this.stateService.getDeliveryProvince(province) == 5){
       
       const Products = Parse.Object.extend('products');
       const query = new Parse.Query(Products);

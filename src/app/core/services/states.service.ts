@@ -9,7 +9,15 @@ export class StatesService {
   deliveryTime: number;
 
   constructor(private provinces: GetProvincesService) { }
-
+  getDeliveryProvince(province: string){
+    console.log(this.provincesArray);
+    for (const p of this.provincesArray) {
+      if(p.name == province){
+        return 5;        
+      }
+    }    
+    return 7;
+  }
   getDeliveryTime(province: string){           
     return 8;
   }
