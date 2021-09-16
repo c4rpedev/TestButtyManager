@@ -71,12 +71,10 @@ export class OrderService {
       }
     })();
   }
-  updateOrder(order: Order, orderId: string, img: string, hasAlbaran: boolean){
-    console.log('asdfsd');
 
+  async updateOrder(order: Order, orderId: string, img: string, hasAlbaran: boolean){
     console.log(img);
 
-    (async () => {
       const query = new Parse.Query('order');
       try {
         // here you put the objectId that you want to update
@@ -119,7 +117,7 @@ export class OrderService {
         } catch (error) {
           console.error('Error while retrieving object order', error);
         }
-    })();
+
   }
 
   updateOrderState(orderId: string, state: string){
