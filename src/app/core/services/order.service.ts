@@ -75,7 +75,7 @@ export class OrderService {
   updateOrder(order: Order, orderId: string, img: string, hasAlbaran: boolean): Observable<boolean>{
     return new Observable(observer => {
       console.log('In Service');
-      //
+
     (async () => {
       const query = new Parse.Query('order');
       try {
