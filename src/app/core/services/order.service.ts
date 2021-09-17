@@ -73,9 +73,9 @@ export class OrderService {
     })();
   }
   updateOrder(order: Order, orderId: string, img: string, hasAlbaran: boolean): Observable<boolean>{
-    return new Observable(observer => { 
+    return new Observable(observer => {
       console.log('In Service');
-      
+      //
     (async () => {
       const query = new Parse.Query('order');
       try {
@@ -97,11 +97,11 @@ export class OrderService {
         if(hasAlbaran && order.state != 'Finalizado'){
            myNewObject.set('orderAlbaran', new Parse.File("albaranes.jpg", { uri: img }));
            console.log("Poniendo albaran");
-           
+
         }
         observer.next(true);
         observer.complete();
-        
+
         try {
           const response = await myNewObject.save();
           // You can use the "get" method to get the value of an attribute
@@ -130,7 +130,7 @@ export class OrderService {
           observer.complete();
         }
     })();
-  
+
   });
 }
 
