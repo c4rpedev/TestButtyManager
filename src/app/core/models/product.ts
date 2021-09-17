@@ -9,9 +9,11 @@ export class Product {
   productAmount: string;
   productDescription: string;
   productImageUrl: string;
-  productProvince: string;   
+  productProvince: string;
+  productProvinces: string[];
   productSeller: string;
   productAgency: string;
+  productAgencys: string[];
   productState: boolean;
   products: Product[];
 }

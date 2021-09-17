@@ -1,3 +1,4 @@
+import { CategoryService } from './../../../core/services/category.service';
 import { DOCUMENT } from '@angular/common';
 import { Component, Inject, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
@@ -18,6 +19,10 @@ import Swal from 'sweetalert2';
 export class AddProductComponent implements OnInit {
   product: Product = new Product();
   provinces: any [] = [];
+  categories: Array<any>;
+  agencys: Array<string> = [];
+  provincesProduct: Array<string> = [];
+  selectchange = true;
   filePath:String;
   img: string | ArrayBuffer =
   "https://parsefiles.back4app.com/vH5Y2pQQTnE8odu7xeMKMzviCtFuPHQAvQogW4GI/7b7b788e29df265cb59d20c2682aba24_product.jpg";
@@ -30,12 +35,12 @@ export class AddProductComponent implements OnInit {
   comboProducts: Product = new Product();
   productList: Array<any> = [
     { id: '', name: '', age: '', companyName: '', country: '', city: '' },
-  
+
   ];
 
   awaitingPersonList: Array<any> = [
     { id: 6, name: 'George Vega', age: 28, companyName: 'Classical', country: 'Russia', city: 'Moscow' },
-   
+
   ];
 
   name = 'Paste it';
@@ -59,49 +64,66 @@ export class AddProductComponent implements OnInit {
     this.dataSource = data;
     console.log(this.dataSource);
     }
-  
+
   constructor(private service: ProductService,
               private provinceService: GetProvincesService,
               private router: Router,
               private transportService: TransportService,
-              public auth: AuthService,    
-                @Inject(DOCUMENT) public document: Document) { 
+              public categoryService: CategoryService,
+              public auth: AuthService,
+                @Inject(DOCUMENT) public document: Document) {
                 this.selectedProvince = null;
               }
 
   ngOnInit(): void {
-    this.provinces = this.provinceService.getProvincesAdd();  
+    this.getCategories();
+    this.provinces = this.provinceService.getProvinces();
     this.auth.user$.subscribe(user =>{
       this.user = user.nickname;
     })
     this.transportService.getTransport().then(res =>{
-      this.transporte = res;           
+      this.transporte = res;
     });
   }
 
-  
+  getCategories() {
+    this.categoryService.getCategories().then(res => {
+      this.categories = res;
+      console.log(this.categories)
+    })
+  }
+
+  //Para inhabilitar la primera opción dle select de categorías
+  ChangeSelect(){
+    this.selectchange = false;
+  }
 
   photo(event: any) {
     this.filePath = event.files;
-    
+
     console.log("Path");
     console.log(this.filePath);
     this.file = event[0];
 
       const reader = new FileReader();
-      
+
 
       reader.readAsDataURL(event.target.files[0]);
 
       reader.onload = event => {
         this.img = reader.result;
-        
+
       };
-    
+
 }
 
   saveProduct(form: NgForm){
     if(form.valid){
+      this.product.productAgency = "empty";
+      this.product.productAgencys = this.agencys;
+      this.product.productProvince = "empty";
+      this.product.productProvinces = this.provincesProduct;
+      console.log(this.product)
       this.service.addProduct(this.product, this.img.toString(), this.dataSource, this.user);
       Swal.fire({
         position: 'top-end',
@@ -115,14 +137,65 @@ export class AddProductComponent implements OnInit {
       Swal.fire({
         icon: 'error',
         title: 'Oops...',
-        text: 'Complete todos los campos obligatorios!',        
+        text: 'Complete todos los campos obligatorios!',
       })
-    } 
-    
+    }
+
+  }
+
+
+  //Gestionando el arreglo de Agencias
+  selectAgency(item: string){
+    let agencyNotIn = true;
+    for (let index = 0; index < this.agencys.length; index++) {
+      const element = this.agencys[index];
+      if (item == element) {
+        this.agencys.splice(index, 1)
+        agencyNotIn = false;
+      }
+    }
+    if (agencyNotIn) {
+      this.agencys.push(item);
+    }
+  }
+
+  verifyAgency(item: string){
+    for (let index = 0; index < this.agencys.length; index++) {
+      const element = this.agencys[index];
+      if (item == element) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  //Gestionando el arreglo de Provincias
+  selecProvince(item: string){
+    let provinceNotIn = true;
+    for (let index = 0; index < this.provincesProduct.length; index++) {
+      const element = this.provincesProduct[index];
+      if (item == element) {
+        this.provincesProduct.splice(index, 1)
+        provinceNotIn = false;
+      }
+    }
+    if (provinceNotIn) {
+      this.provincesProduct.push(item);
+    }
+  }
+
+  verifyProvince(item: string){
+    for (let index = 0; index < this.provincesProduct.length; index++) {
+      const element = this.provincesProduct[index];
+      if (item == element) {
+        return true;
+      }
+    }
+    return false;
   }
 
   //---Editable Table -- //
- 
+
 
     updateList(id: number, property: string, event: any) {
       const editField = event.target.textContent;
@@ -134,12 +207,12 @@ export class AddProductComponent implements OnInit {
       this.productList.splice(id, 1);
     }
 
-    add() {     
+    add() {
         const person = this.awaitingPersonList[0];
         this.productList.push(this.productList);
         console.log(this.productList);
-        
-        this.awaitingPersonList.splice(0, 1);      
+
+        this.awaitingPersonList.splice(0, 1);
     }
 
     changeValue(id: number, property: string, event: any) {

@@ -22,6 +22,8 @@ import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { MatDialogModule } from "@angular/material/dialog";
 import { PreviewProductComponent } from './preview-product/preview-product.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { AddCategoryComponent } from './add-category/add-category.component';
+import { ListCategoryComponent } from './list-category/list-category.component';
 
 @NgModule({
   imports: [
@@ -30,8 +32,9 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     MatTableModule,
     Ng2SearchPipeModule,
     MatDialogModule,
-    MatProgressSpinnerModule
-    //RouterModule.forChild(ProductRoutes),      
+    MatProgressSpinnerModule,
+    RouterModule
+    //RouterModule.forChild(ProductRoutes),
   ],
   declarations: [
     ProductComponent,
@@ -41,8 +44,10 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     EditProductComponent,
     CreateComboComponent,
     MyFilterPipe,
-    PreviewProductComponent  
-    
+    PreviewProductComponent,
+    AddCategoryComponent,
+    ListCategoryComponent
+
   ],
   exports: [],
 })

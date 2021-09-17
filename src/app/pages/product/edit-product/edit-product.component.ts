@@ -1,3 +1,5 @@
+import { CategoryService } from './../../../core/services/category.service';
+import { TransportService } from './../../../core/services/transport.service';
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -21,9 +23,12 @@ export class EditProductComponent implements OnInit {
   "https://bulma.io/images/placeholders/480x480.png";
   photosrc: String;
   selectedProvince: null;
-  file: File;  
+  file: File;
   products: Array<any>;
   productsA: Array<any>;
+  agencys: Array<string> = [];
+  provincesProduct: Array<string> = [];
+  transporte: any [] = [];
 
   name = 'Paste it';
   val:any;
@@ -33,19 +38,21 @@ export class EditProductComponent implements OnInit {
   row_data: Array<any> = [];
   prod: any;
   productview: ProductView = new ProductView;
- 
-  
+
+
 
   constructor(private service: ProductService,
               private provinceService: GetProvincesService,
-              private router: Router) { 
+              private router: Router,
+              private categoryService: CategoryService,
+              private transportService: TransportService) {
                 this.selectedProvince = null;
               }
 
   ngOnInit(): void {
-   
-    this.products = history.state.productA;  
-    this.productsA = history.state.product;   
+
+    this.products = history.state.productA;
+    this.productsA = history.state.product;
     this.product.productId = this.products[0].productId;
     this.product.productName = this.products[0].name;
     this.product.productPrice = this.products[0].price;
@@ -57,14 +64,19 @@ export class EditProductComponent implements OnInit {
     this.product.productDescription = this.products[0].description;
     this.product.productAgency = this.products[0].productAgency;
     this.img = this.products[0].picture._url;
+    this.agencys = this.products[0].productAgencys;
+    this.provincesProduct = this.products[0].productProvinces;
     console.log('Product');
     console.log(this.products);
     console.log('Product ID');
     console.log(this.productsA);
     this.data(this.event);
-    this.provinces = this.provinceService.getProvincesAdd();  
+    this.provinces = this.provinceService.getProvinces();
     //this.getProducts();
-   
+    this.transportService.getTransport().then(res =>{
+      this.transporte = res;
+    });
+
   }
 
   data(event: ClipboardEvent) {
@@ -90,10 +102,10 @@ export class EditProductComponent implements OnInit {
     }
   }
 
-  getProducts() {   
+  getProducts() {
     for (const product of this.products[0].products) {
       console.log('product');
-      console.log(product);      
+      console.log(product);
       if(product.products.length == 0){
         console.log('IFFF');
         this.prod = <Object>product;
@@ -101,20 +113,20 @@ export class EditProductComponent implements OnInit {
                             UM: this.prod.um,
                             Cantidad: this.prod.amount};
         console.log(this.productview);
-        
+
         this.row_data.push(this.productview);
         console.log(this.row_data);
-        
-        
+
+
       }else{
         console.log('ELSSS');
-        this.prod = <Object>product.products;  
+        this.prod = <Object>product.products;
         for (const p of this.prod) {
           this.row_data.push(p);
         }
-        
-        console.log(this.row_data);        
-      
+
+        console.log(this.row_data);
+
         //this.row_data= product.products;
       }
     }
@@ -125,13 +137,12 @@ export class EditProductComponent implements OnInit {
     this.dataSource = this.row_data;
     console.log('DATASOURCE');
     console.log(this.dataSource);
-    
-    
+
     }
 
   photo(event: any) {
     this.filePath = event.files;
-    
+
     console.log("Path");
     console.log(this.filePath);
     this.file = event[0];
@@ -141,9 +152,10 @@ export class EditProductComponent implements OnInit {
         this.img = reader.result;
       };
     }
-
   saveProduct(form: NgForm){
-    if(form.valid){     
+    if(form.valid){
+      this.product.productAgencys = this.agencys;
+      this.product.productProvinces = this.provincesProduct;
       this.service.updateProduct(this.productsA[0].id, this.product, this.img.toString(), this.dataSource);
       Swal.fire({
         position: 'top-end',
@@ -157,10 +169,10 @@ export class EditProductComponent implements OnInit {
       Swal.fire({
         icon: 'error',
         title: 'Oops...',
-        text: 'Complete todos los campos obligatorios!',        
+        text: 'Complete todos los campos obligatorios!',
       })
-    } 
-    
+    }
+
   }
   redirectTo(uri:string){
     this.router.navigateByUrl('/', {skipLocationChange: true}).then(()=>
@@ -178,7 +190,7 @@ export class EditProductComponent implements OnInit {
     }).then((result) => {
       if (result.isConfirmed) {
         console.log(this.productsA[0].id);
-        
+
         this.service.deleteProduct(this.productsA[0].id);
         Swal.fire(
           'Borrado!',
@@ -188,12 +200,61 @@ export class EditProductComponent implements OnInit {
         this.redirectTo('list-product');
       }
     })
-    
-      
-    
-    
-    
+
+
+
+
+
   }
-  
+
+  //Gestionando el arreglo de Agencias
+  selectAgency(item: string){
+    let agencyNotIn = true;
+    for (let index = 0; index < this.agencys.length; index++) {
+      const element = this.agencys[index];
+      if (item == element) {
+        this.agencys.splice(index, 1)
+        agencyNotIn = false;
+      }
+    }
+    if (agencyNotIn) {
+      this.agencys.push(item);
+    }
+  }
+
+  verifyAgency(item: string){
+    for (let index = 0; index < this.agencys.length; index++) {
+      const element = this.agencys[index];
+      if (item == element) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  //Gestionando el arreglo de Provincias
+  selecProvince(item: string){
+    let provinceNotIn = true;
+    for (let index = 0; index < this.provincesProduct.length; index++) {
+      const element = this.provincesProduct[index];
+      if (item == element) {
+        this.provincesProduct.splice(index, 1)
+        provinceNotIn = false;
+      }
+    }
+    if (provinceNotIn) {
+      this.provincesProduct.push(item);
+    }
+  }
+
+  verifyProvince(item: string){
+    for (let index = 0; index < this.provincesProduct.length; index++) {
+      const element = this.provincesProduct[index];
+      if (item == element) {
+        return true;
+      }
+    }
+    return false;
+  }
 
 }
