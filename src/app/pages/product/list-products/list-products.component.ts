@@ -37,8 +37,8 @@ export class ListProductsComponent implements OnInit {
   user: string;
   term: string;
   loading: boolean;
-  //categorys: any = [];
-  categorys: any = ['Combo', 'Producto', 'restaurante1', 'masterpizza', 'combos todo x 1 precio' ];
+  categorys: any = [];
+  // categorys: any = ['Combo', 'Producto', 'restaurante1', 'masterpizza', 'combos todo x 1 precio' ];
 
   productState: boolean;
 
@@ -68,17 +68,17 @@ export class ListProductsComponent implements OnInit {
       this.who = history.state.who;
       this.getProvinces();
      // this.getProductForProvince();
-     // this.getCategories();
+     this.getCategories();
       //this.migrar();
     })
 
   }
 
-  // getCategories() {
-  //   this.categoryService.getCategories().then(res => {
-  //     this.categorys = res;
-  //   })
-  // }
+  getCategories() {
+    this.categoryService.getCategories().then(res => {
+      this.categorys = res;
+    })
+  }
 
   openDialog(product: any): void {
     const dialogRef = this.dialog.open(PreviewProductComponent, {
@@ -196,7 +196,7 @@ export class ListProductsComponent implements OnInit {
 
 
   //MIGRATE
-  // migrar() {   
+  // migrar() {
   //   this.service.migrate().then(res => {
   //     for (let index = 0; index < res.length; index++) {
   //       let agency = [];
