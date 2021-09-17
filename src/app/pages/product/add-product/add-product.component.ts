@@ -20,6 +20,8 @@ export class AddProductComponent implements OnInit {
   product: Product = new Product();
   provinces: any [] = [];
   categories: Array<any>;
+  agencys: Array<string> = [];
+  provincesProduct: Array<string> = [];
   selectchange = true;
   filePath:String;
   img: string | ArrayBuffer =
@@ -75,7 +77,7 @@ export class AddProductComponent implements OnInit {
 
   ngOnInit(): void {
     this.getCategories();
-    this.provinces = this.provinceService.getProvincesAdd();
+    this.provinces = this.provinceService.getProvinces();
     this.auth.user$.subscribe(user =>{
       this.user = user.nickname;
     })
@@ -117,6 +119,11 @@ export class AddProductComponent implements OnInit {
 
   saveProduct(form: NgForm){
     if(form.valid){
+      this.product.productAgency = "empty";
+      this.product.productAgencys = this.agencys;
+      this.product.productProvince = "empty";
+      this.product.productProvinces = this.provincesProduct;
+      console.log(this.product)
       this.service.addProduct(this.product, this.img.toString(), this.dataSource, this.user);
       Swal.fire({
         position: 'top-end',
@@ -134,6 +141,57 @@ export class AddProductComponent implements OnInit {
       })
     }
 
+  }
+
+
+  //Gestionando el arreglo de Agencias
+  selectAgency(item: string){
+    let agencyNotIn = true;
+    for (let index = 0; index < this.agencys.length; index++) {
+      const element = this.agencys[index];
+      if (item == element) {
+        this.agencys.splice(index, 1)
+        agencyNotIn = false;
+      }
+    }
+    if (agencyNotIn) {
+      this.agencys.push(item);
+    }
+  }
+
+  verifyAgency(item: string){
+    for (let index = 0; index < this.agencys.length; index++) {
+      const element = this.agencys[index];
+      if (item == element) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  //Gestionando el arreglo de Provincias
+  selecProvince(item: string){
+    let provinceNotIn = true;
+    for (let index = 0; index < this.provincesProduct.length; index++) {
+      const element = this.provincesProduct[index];
+      if (item == element) {
+        this.provincesProduct.splice(index, 1)
+        provinceNotIn = false;
+      }
+    }
+    if (provinceNotIn) {
+      this.provincesProduct.push(item);
+    }
+  }
+
+  verifyProvince(item: string){
+    for (let index = 0; index < this.provincesProduct.length; index++) {
+      const element = this.provincesProduct[index];
+      if (item == element) {
+        return true;
+      }
+    }
+    return false;
   }
 
   //---Editable Table -- //

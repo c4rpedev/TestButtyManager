@@ -8,18 +8,18 @@ import { StatesService } from './states.service';
 @Injectable({
   providedIn: 'root'
 })
-export class ProductService {  
+export class ProductService {
   products: Array<Product>;
   name: String;
   img: string;
   path: string;
   results: any;
 
-  constructor(private http:HttpClient, 
-              private router: Router,   
+  constructor(private http:HttpClient,
+              private router: Router,
               private stateService: StatesService
-              ) { 
-                
+              ) {
+
               }
 
 
@@ -29,49 +29,51 @@ export class ProductService {
       query.equalTo("category", category);
       return query.find();
   }
-  getProductProperties(province: string, agency: string): Promise <any> {   
+
+  //Obtener Productos por agencia y provincia
+  getProductProperties(province: string, agency: string): Promise <any> {
     console.log(agency);
      console.log(this.stateService.getDeliveryTime(province));
-     
+
     if(this.stateService.getDeliveryTime(province) == 5){
-      
+
       const Products = Parse.Object.extend('products');
       const query = new Parse.Query(Products);
       const query2 = new Parse.Query(Products);
       const query3 = new Parse.Query(Products);
       if(province == 'Matanzas'){
-        if(agency == 'franklin' || agency == 'domiciliohabana'){          
+        if(agency == 'franklin' || agency == 'domiciliohabana'){
           query.equalTo("productAgency", 'franklin');
-          console.log('Entro');        
+          console.log('Entro');
         }else{
-          query.containedIn("productAgency", [agency, null]); 
+          query.containedIn("productAgency", [agency, null]);
           console.log('No Entro');
-        } 
+        }
         query2.equalTo('province', province);
         query3.containedIn("province", [province, "Occidente"]);
-            
+
         const composedQuery = Parse.Query.and(query, query3);
         // const composedQueryF = Parse.Query.and(query, query2);
         // const composedQuery = Parse.Query.and(composedQueryF, query3);
         return composedQuery.find();
-      }else{  
+      }else{
         if(agency == 'franklin' || agency == 'domiciliohabana'){
           query.equalTo("productAgency", agency);
-          console.log('Entro');        
+          console.log('Entro');
         }else{
-          query.containedIn("productAgency", [agency, null]); 
+          query.containedIn("productAgency", [agency, null]);
           console.log('No Entro');
-        }  
+        }
         query2.equalTo('province', province);
         query3.equalTo('province', "Occidente");
-            
+
         //const composedQuery = Parse.Query.or(query, query2);
         const composedQueryF = Parse.Query.and(query, query3);
         const composedQuery = Parse.Query.or(composedQueryF, query2);
         return composedQuery.find();
       }
-         
-    
+
+
     }else{
       const Products = Parse.Object.extend('products');
       const query = new Parse.Query(Products);
@@ -79,11 +81,11 @@ export class ProductService {
       const query3 = new Parse.Query(Products);
       if(province == "Santiago de Cuba" || province == "Pinar del Río"){
         if(agency == 'esencialpack' || agency == 'domiciliohabana' || agency == 'franklin'){
-          query.equalTo("productAgency",agency); 
+          query.equalTo("productAgency",agency);
         }else{
-          query.containedIn("productAgency",[agency, null]); 
-        }        
-        query2.equalTo('province', province);      
+          query.containedIn("productAgency",[agency, null]);
+        }
+        query2.equalTo('province', province);
         const composedQuery = Parse.Query.and(query, query2);
         return composedQuery.find();
       }else{
@@ -92,22 +94,21 @@ export class ProductService {
           query.equalTo("productAgency", agency);
         }else{
           query.containedIn("productAgency",
-        [agency, null]); 
-        }        
-      
+        [agency, null]);
+        }
+
         query2.equalTo('province', province);
       //const composedQuery = Parse.Query.or(query, query2);
        const composedQueryF = Parse.Query.and(query, query3);
         const composedQuery = Parse.Query.or(composedQueryF, query2);
         return composedQuery.find();
       }
-      
-      
-    }           
+
+
+    }
   }
 
-
- 
+//Obtener Todos los Productos por provincia
   public getAllProductProperties(province: string): Promise <any> {
     if(this.stateService.getDeliveryTime(province) == 5){
       const Products = Parse.Object.extend('products');
@@ -123,7 +124,7 @@ export class ProductService {
       const Products = Parse.Object.extend('products');
       const query = new Parse.Query(Products);
       const query2 = new Parse.Query(Products);
-      
+
       query.equalTo('province', province);
       if(province == "Santiago de Cuba" || province == "Pinar del Río"){
         return query.find();
@@ -132,12 +133,34 @@ export class ProductService {
         const composedQuery = Parse.Query.or(query, query2);
         return composedQuery.find()
       }
-     
+
     }
-    
+
   }
 
-  addProduct(product: Product, img: string, products: any[], user: string){    
+ //NUEVO Obtener Productos por agencia y provincia
+  getProductsbyProvinceAndAgency(province: string, agency: string){
+    const Products = Parse.Object.extend('products');
+      const query = new Parse.Query(Products);
+      query.containedIn("productAgencys", [agency, 'Todas']);
+      query.contains('productProvinces', province);
+
+      // const query2 = new Parse.Query(Products);
+      // query.contains("productAgencys", 'Todas');
+      // query.contains('productProvinces', province);
+      // const composedQuery = Parse.Query.or(query, query2);
+      return query.find();
+  }
+
+  //NUEVO Obtener Todos los Productos por provincia
+  getProductsbyProvince(province: string){
+    const Products = Parse.Object.extend('products');
+      const query = new Parse.Query(Products);
+      query.contains('productProvinces', province);
+      return query.find();
+  }
+
+  addProduct(product: Product, img: string, products: any[], user: string){
     (async () => {
       const myNewObject = new Parse.Object('products');
       // myNewObject.set('productId', product.productId);
@@ -147,11 +170,13 @@ export class ProductService {
       myNewObject.set('um', product.productUM);
       myNewObject.set('amount', +product.productAmount);
       myNewObject.set('province', product.productProvince);
-      myNewObject.set('category', product.productCategory);   
-      myNewObject.set('productAgency', product.productAgency);    
-      myNewObject.set('picture', new Parse.File("product.jpg", { uri: img }));   
-      myNewObject.set('description', product.productDescription);  
-      myNewObject.set('products', products); 
+      myNewObject.set('category', product.productCategory);
+      myNewObject.set('productAgency', product.productAgency);
+      myNewObject.set('picture', new Parse.File("product.jpg", { uri: img }));
+      myNewObject.set('description', product.productDescription);
+      myNewObject.set('products', products);
+      myNewObject.set('productAgencys', product.productAgencys);
+      myNewObject.set('productProvinces', product.productProvinces);
       try {
         const result = await myNewObject.save();
         // Access the Parse Object attributes using the .GET method
@@ -159,18 +184,10 @@ export class ProductService {
       } catch (error) {
         console.error('Error while creating products: ', error);
       }
-    })();    
+    })();
   }
 
-  updateProduct(id: string, product: Product, img: string, products: any){   
-    console.log('ID');
-    console.log(id);
-    console.log('Product');
-    console.log(product);
-    console.log('Img');
-    console.log(img);
-    console.log('ProductsArray');
-    console.log(products);
+  updateProduct(id: string, product: Product, img: string, products: any){
     (async () => {
       const query = new Parse.Query('products');
       try {
@@ -183,11 +200,13 @@ export class ProductService {
       myNewObject.set('um', product.productUM);
       myNewObject.set('amount', product.productAmount);
       myNewObject.set('province', product.productProvince);
-      myNewObject.set('category', product.productCategory);      
-      myNewObject.set('picture', new Parse.File("product.jpg", { uri: img }));   
-      myNewObject.set('description', product.productDescription);      
-      myNewObject.set('products', products); 
-      myNewObject.set('productAgency', product.productAgency); 
+      myNewObject.set('category', product.productCategory);
+      myNewObject.set('picture', new Parse.File("product.jpg", { uri: img }));
+      myNewObject.set('description', product.productDescription);
+      myNewObject.set('products', products);
+      myNewObject.set('productAgency', product.productAgency);
+      myNewObject.set('productAgencys', product.productAgencys);
+      myNewObject.set('productProvinces', product.productProvinces);
         try {
           const response = await myNewObject.save();
           // You can use the "get" method to get the value of an attribute
@@ -210,7 +229,7 @@ export class ProductService {
         } catch (error) {
           console.error('Error while retrieving object products', error);
         }
-    })(); 
+    })();
   }
 
   deleteProduct(id: string){
@@ -229,22 +248,22 @@ export class ProductService {
         console.error('Error while retrieving ParseObject', error);
       }
     })();
-    
+
   }
-  addCombo(product: Product, img: string, products: any[], agency: string){    
+  addCombo(product: Product, img: string, products: any[], agency: string){
     (async () => {
-      const myNewObject = new Parse.Object('products');      
+      const myNewObject = new Parse.Object('products');
       myNewObject.set('name', product.productName);
       myNewObject.set('price', +product.productPrice);
       myNewObject.set('cost', product.productCost);
       myNewObject.set('um', 'u');
       myNewObject.set('amount', +'1');
       myNewObject.set('province', product.productProvince);
-      myNewObject.set('category', 'Combo');      
-      myNewObject.set('productAgency', agency);   
-      myNewObject.set('picture', new Parse.File("product.jpg", { uri: img }));   
-      myNewObject.set('description', product.productDescription);  
-      myNewObject.set('products', products);  
+      myNewObject.set('category', 'Combo');
+      myNewObject.set('productAgency', agency);
+      myNewObject.set('picture', new Parse.File("product.jpg", { uri: img }));
+      myNewObject.set('description', product.productDescription);
+      myNewObject.set('products', products);
       try {
         const result = await myNewObject.save();
         // Access the Parse Object attributes using the .GET method
@@ -252,23 +271,23 @@ export class ProductService {
       } catch (error) {
         console.error('Error while creating products: ', error);
       }
-    })();    
+    })();
   }
 
-  updateProductState(id: string, state: boolean){  
+  updateProductState(id: string, state: boolean){
     (async () => {
       const query = new Parse.Query('products');
       try {
         // here you put the objectId that you want to update
         const myNewObject = await query.get(id);
         // myNewObject.set('productId', product.productId);
-     
-      myNewObject.set('state', state); 
+
+      myNewObject.set('state', state);
         try {
           const response = await myNewObject.save();
           // You can use the "get" method to get the value of an attribute
           // Ex: response.get("<ATTRIBUTE_NAME>")
-          // Access the Parse Object attributes using the .GET method         
+          // Access the Parse Object attributes using the .GET method
           console.log(response.get('state'));
           console.log('products updated', response);
         } catch (error) {
@@ -277,6 +296,43 @@ export class ProductService {
         } catch (error) {
           console.error('Error while retrieving object products', error);
         }
-    })(); 
+    })();
   }
+
+
+  //MIGRAR PRODUCTOS VIEJOS A NUEVOS!
+  migrate(){
+    const Products = Parse.Object.extend('products');
+    const query = new Parse.Query(Products);
+    query.limit(1000);
+    return query.find();
+  }
+
+  updateP(id: string, agency: string[], province: string[] ){
+    (async () => {
+      const query = new Parse.Query('products');
+      try {
+        // here you put the objectId that you want to update
+        const myNewObject = await query.get(id);
+        // myNewObject.set('productId', product.productId);
+
+      myNewObject.set('province', 'Empty');
+      myNewObject.set('productAgency', 'Empty');
+      myNewObject.set('productAgencys', agency);
+      myNewObject.set('productProvinces', province);
+        try {
+          const response = await myNewObject.save();
+
+        } catch (error) {
+          console.error('Error while updating products', error);
+          }
+        } catch (error) {
+          console.error('Error while retrieving object products', error);
+        }
+    })();
+  }
+
+
+
+
 }
