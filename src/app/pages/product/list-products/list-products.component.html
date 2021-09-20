@@ -43,7 +43,7 @@
             <span class="input-group-text" id="basic-addon1"> <i class="fa fa-search"></i> </span>
             <input type="text" class="form-control" placeholder="Busca por nombre" aria-label="Username" aria-describedby="basic-addon1" [(ngModel)]="term">
           </div>
-          <div class="province-select" *ngIf="selectedProvince && (admin || user=='franklin' || user=='tushoponline' ||user=='domiciliohabana')">
+          <div class="province-select" *ngIf="selectedProvince && (admin || user=='franklin' || user=='tushoponline' ||user=='domiciliohabana' ||user=='zenatour')">
             <select [(ngModel)]="selectedCategory"  class="form-select" id="selectedCategory" >
               <option [ngValue]="null">Seleccione una categoria</option>
               <option *ngFor="let p of categorys">

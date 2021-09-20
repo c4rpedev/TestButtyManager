@@ -315,31 +315,34 @@ export class ListOrdersComponent implements OnInit  {
   isAdmin(){
     this.admin = this.userService.isAdmin(this.user);
   }
+
+  //Check the state of the order and change it in consideration of the days before the end of the Delivery Time
   checkState(){
     for (let order of this.orders) {
-      let d1 = new Date();
-      var diff = Math.abs(order.attributes.createdAt.getTime() - d1.getTime());
-      var diffDays = Math.ceil(diff / (1000 * 3600 * 24));
+      let currentDate = new Date();
+      let orderDate = new Date();
+      orderDate = order.attributes.createdAt;
+
+      //Removing time in dates
+      orderDate.setHours(0,0,0,0);
+      currentDate.setHours(0,0,0,0);
+
+      var diffBetweenDates = Math.abs(orderDate.getTime() - currentDate.getTime());
+      var diffInDays = Math.ceil(diffBetweenDates / (1000 * 3600 * 24));
 
       var deliveryTime = this.stateService.getDeliveryTime(order.attributes.orderProvince);
       if(order.attributes.state == "En Proceso" || order.attributes.state.includes("En Tiempo") || order.attributes.state.includes("En Termino") || order.attributes.state.includes("Atrasado")){
-        if((diffDays - deliveryTime == 1) || diffDays == deliveryTime){
-          this.orderService.updateOrderState(order.id, 'En Termino')
-          console.log('En termino');
-        }else if(diffDays < deliveryTime){
-          //this.orderService.updateOrderState(order.id, 'En Tiempo')
-          this.orderService.updateOrderState(order.id, 'En Tiempo'+' '+(deliveryTime-diffDays))
-          console.log('En tiempo'+' '+(deliveryTime-diffDays));
-        }else if(diffDays > deliveryTime){
-          //this.orderService.updateOrderState(order.id, 'Atrasado')
-          this.orderService.updateOrderState(order.id, 'Atrasado'+' '+(diffDays-deliveryTime))
-          console.log('Atrasado'+' '+(diffDays-deliveryTime));
-
+        if(diffInDays == deliveryTime-1){
+         this.orderService.updateOrderState(order.id, 'En Termino')
+        }else if(diffInDays < deliveryTime){
+         this.orderService.updateOrderState(order.id, 'En Tiempo'+' '+(deliveryTime-diffInDays-1))
+        }else if(diffInDays > deliveryTime || diffInDays == deliveryTime){
+         this.orderService.updateOrderState(order.id, 'Atrasado'+' '+(diffInDays-deliveryTime+1))
         }
       }
 
       //Archivar las órdenes Finalizadas que tienen más de 15 días sin modificar
-      var diffModif = Math.abs(order.attributes.updatedAt.getTime() - d1.getTime());
+      var diffModif = Math.abs(order.attributes.updatedAt.getTime() - currentDate.getTime());
       var diffModDays = Math.ceil(diffModif / (1000 * 3600 * 24));
       if(order.attributes.state == "Finalizado" && diffModDays > 15){
         this.orderService.updateOrderState(order.id, 'Archivado')
