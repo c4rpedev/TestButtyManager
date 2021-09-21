@@ -35,6 +35,7 @@ export class OrderService {
       myNewObject.set('orderPrice', order.orderPrice);
       myNewObject.set('orderReference', order.orderReference);
       myNewObject.set('orderNote', order.orderNote);
+      myNewObject.set('state', 'Nuevo');
       if (order.orderProvince == "Pinar del Río" ||
         order.orderProvince == "Matanzas" ||
         order.orderProvince == "Artemisa" ||
@@ -62,8 +63,8 @@ export class OrderService {
     })();
   }
 
-  createOrderPatugente(order: Order, url: string[], user: string) {
-    (async () => {
+  async createOrderPatugente(order: Order, url: string[], user: string) {
+
       const myNewObject = new Parse.Object('order');
       myNewObject.set('orderId', order.orderId);
       myNewObject.set('orderClientName', order.orderClientName);
@@ -71,6 +72,7 @@ export class OrderService {
       myNewObject.set('orderProvince', order.orderProvince);
       myNewObject.set('orderMobile', order.orderMobile);
       myNewObject.set('orderAgency', user);
+      myNewObject.set('state', 'Nuevo');
       myNewObject.set('orderInvoice', new Parse.File("factura.pdf", { uri: url[0].toString() }));
 
       try {
@@ -80,7 +82,6 @@ export class OrderService {
       } catch (error) {
         console.error('Error while creating order: ', error);
       }
-    })();
   }
   updateOrder(order: Order, orderId: string, img: string, hasAlbaran: boolean): Observable<boolean> {
     return new Observable(observer => {
@@ -208,7 +209,7 @@ export class OrderService {
     } else {
       const Orders = Parse.Object.extend('order');
       const query = new Parse.Query(Orders);
-      query.notEqualTo('orderAgency', 'patugente');
+      // query.notEqualTo('orderAgency', 'patugente');
       query.notEqualTo('state', 'Archivado');
       query.limit(1000);
       return query.find()

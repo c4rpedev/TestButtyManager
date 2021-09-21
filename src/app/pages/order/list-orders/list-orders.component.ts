@@ -206,6 +206,10 @@ export class ListOrdersComponent implements OnInit {
           res.forEach((element: any) => {
             this.orders.push(element);
           });
+          console.log('orders!!!!!')
+          console.log(this.orders);
+          console.log('RESSSS!!!')
+          console.log(res)
           this.dataSource = new MatTableDataSource<Order>(this.orders);
 
 

@@ -19,18 +19,20 @@ import { SmsService } from 'src/app/core/services/sms.service';
   templateUrl: './add-order-sucursal.component.html',
   styleUrls: ['./add-order-sucursal.component.scss']
 })
-export class AddOrderSucursalComponent implements OnInit {  
+export class AddOrderSucursalComponent implements OnInit {
   order: Order = new Order();
   products: Array<any> = [{}];
   subtotal: number;
   total:number = 0;
+  provincesP: any;
+  file2: File;
   totalAmount:number = 0;
   provinces: any [] = [];
   province: string;
   municipios: any [] = [];
   user: string;
-  mobNumberPattern = "^5+[0-9]{7}$"; 
-  fixNumberPattern = "^[0-9]{8}$"; 
+  mobNumberPattern = "^5+[0-9]{7}$";
+  fixNumberPattern = "^[0-9]{8}$";
   transportCost : number;
   streetNumber: string;
   street: string;
@@ -49,75 +51,76 @@ export class AddOrderSucursalComponent implements OnInit {
     private orderService: OrderService,
     private municipioService: MunicipioService,
     private transportService: TransportService,
-    public auth: AuthService,    
+    public auth: AuthService,
                 @Inject(DOCUMENT) public document: Document
   ) { }
 
-  ngOnInit(): void {    
-     this.provinces = this.provinceService.getProvinces(); 
+  ngOnInit(): void {
+     this.provinces = this.provinceService.getProvinces();
      this.products = history.state.product;
     //  this.province =  history.state.province;
-     this.order.orderProvince = history.state.province;     
-     this.initProvince();  
+     this.order.orderProvince = history.state.province;
+     this.getProvinces();
+    //  this.initProvince();
      this.auth.user$.subscribe(user =>{
       this.user = user.nickname;
-      this.getTransportCost();      
-     }) 
+      this.getTransportCost();
+     })
   }
 
-  initProvince(){
-    this.municipioService.getMunicipio(this.order.orderProvince).then(res=>{
-      this.municipios = res[0].attributes['municipios'];  
-      console.log(this.municipios);
-    })
-  }
+  // initProvince(){
+    // this.municipioService.getMunicipio(this.order.orderProvince).then(res=>{
+    //   this.municipios = res[0].attributes['municipios'];
+    //   console.log(this.municipios);
+    // })
+  // }
 
-  changeProvince(){   
+  changeProvince(){
     this.municipioService.getMunicipio(this.order.orderProvince).then(res=>{
-      this.municipios = res[0].attributes['municipios'];  
+      this.municipios = res[0].attributes['municipios'];
       this.order.orderMunicipio = this.municipios[0]['municipio'];
           })
     this.transporteArrayM.transporte.forEach((element:any) => {
       if(element.municipio == this.province){
         this.transportCost = 0;
-       this.transportCost = +element.precio;       
-       this.total = this.totalAmount + this.transportCost;   
-      }       
+       this.transportCost = +element.precio;
+       this.total = this.totalAmount + this.transportCost;
+      }
     });
   }
 
   getTransportCost(){
-    console.log(this.user);    
-    this.transportService.getTransportForAgency(this.user).then(res=>{
-      this.transporteArray = res;    
-      console.log('Transporte');
-      
-      console.log(this.transporteArray[0].attributes);
-         console.log(this.order.orderProvince);
-         
-      this.transporteArrayM=this.transporteArray[0].attributes;           
-       this.transporteArrayM.transporte.forEach((element:any) => {
-         if(element.municipio == this.order.orderProvince){
-           this.transportCost = 0;
-          this.transportCost = +element.precio;
-          console.log(this.transportCost);
-          
-         }      
-       });
-       
-       this.products.forEach(element => { 
-        this.subtotal = +element.price;
-        this.total = this.total + this.subtotal 
-        this.totalAmount = this.total;
-        console.log(this.total);      
-      });
-      this.total = this.total + this.transportCost;
-      console.log('TOTAL');
-      console.log(this.total);
-      
-      
-      this.changeProvince();
-    })
+    console.log(this.user);
+    // this.transportService.getTransportForAgency(this.user).then(res=>{
+    //   this.transporteArray = res;
+    //   console.log('Transporte');
+
+    //   console.log(this.transporteArray[0].attributes);
+    //      console.log(this.order.orderProvince);
+
+    //   this.transporteArrayM=this.transporteArray[0].attributes;
+    //    this.transporteArrayM.transporte.forEach((element:any) => {
+    //      if(element.municipio == this.order.orderProvince){
+    //        this.transportCost = 0;
+    //       this.transportCost = +element.precio;
+    //       console.log(this.transportCost);
+
+    //      }
+    //    });
+
+    //    this.products.forEach(element => {
+    //     this.subtotal = +element.price;
+    //     this.total = this.total + this.subtotal
+    //     this.totalAmount = this.total;
+    //     console.log(this.total);
+    //   });
+    //   this.total = this.total + this.transportCost;
+    //   console.log('TOTAL');
+    //   console.log(this.total);
+
+
+    //   this.changeProvince();
+    // })
   }
 
   detectFiles(event: any) {
@@ -129,13 +132,13 @@ export class AddOrderSucursalComponent implements OnInit {
         reader.onload = (e: any) => {
           this.urls.push(e.target.result);
         }
-        reader.readAsDataURL(file);        
+        reader.readAsDataURL(file);
       }
-    } 
+    }
     console.log('URL');
     console.log(this.urls);
-    
-    
+
+
   }
 
   sendSms(number: string){
@@ -144,20 +147,39 @@ export class AddOrderSucursalComponent implements OnInit {
     }else{
       this.smsService.sendSMS(number, ' ', this.order.orderRecieverName, this.user);
     }
-    
+
   }
-  
+
+  getProvinces() {
+    this.provincesP = this.provinceService.getProvinces();
+    for (const province of this.provincesP) {
+      this.municipioService.getMunicipio(province.name).then(res => {
+        console.log(res[0].attributes['municipios'][0].municipio);
+        if (res[0].attributes['municipios'][0].municipio != '') {
+          this.provinces.push(province);
+          console.log('PRovinces');
+          console.log(this.provinces);
+        }
+      })
+
+    }
+
+  }
+
   onSubmit(form: NgForm){
 
     console.log(form);
-    
-    if(form.valid){   
+
+    if(form.valid){
       // if(!this.order.state && (this.order.orderAgency != 'esencialpack' && this.order.orderAgency != 'agenciaespaña')){
-      //   this.sendSms(this.order.orderMobile);        
-      // } 
-   
-      this.order.orderPrice = this.total;     
-      this.orderService.createOrderPatugente(this.order, this.urls, this.user);
+      //   this.sendSms(this.order.orderMobile);
+      // }
+
+      this.order.orderPrice = this.total;
+      this.orderService.createOrderPatugente(this.order, this.urls, this.user).then(res=>{
+        this.router.navigate(['/orders']);
+      });
+
       Swal.fire({
         position: 'top-end',
         icon: 'success',
@@ -165,13 +187,13 @@ export class AddOrderSucursalComponent implements OnInit {
         showConfirmButton: false,
         timer: 1500
       })
-      this.router.navigate(['/orders']);
+
     }else{
       Swal.fire({
         icon: 'error',
         title: 'Oops...',
-        text: 'Complete todos los campos obligatorios!',        
+        text: 'Complete todos los campos obligatorios!',
       })
-    } 
+    }
   }
 }
