@@ -127,7 +127,9 @@ sendEmail(){
           if(this.order.state == 'Finalizado'){
               this.sendEmail();
            }
-           this.orderService.edit = true;
+           if(this.orderService.values && this.orderService.conditions && this.orderService.methods){
+            this.orderService.edit = true;
+           }
            if(this.orderService.Archivados){
              this.orderService.Archivados = false;
             this.router.navigate(['/orders-completed']);
