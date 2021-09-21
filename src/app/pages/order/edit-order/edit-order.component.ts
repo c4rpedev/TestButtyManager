@@ -31,6 +31,7 @@ export class EditOrderComponent implements OnInit {
   total:number = 0;
   img: string | ArrayBuffer =
   "https://bulma.io/images/placeholders/480x480.png";
+  pdf: string | ArrayBuffer;
   photosrc: String;
   isImg = false;
   filePath:String;
@@ -44,9 +45,13 @@ export class EditOrderComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-
     this.order = history.state.order;
-    this.img=  history.state.order.orderAlbaran._url;
+    if(history.state.order.orderAlbaran){
+      this.img=  history.state.order.orderAlbaran._url;
+    }
+    if(history.state.order.orderInvoice){
+      this.pdf = history.state.order.orderInvoice._url;
+    }
     this.orderId = history.state.orderId;
     this.user = history.state.user;
     this.admin = history.state.admin;

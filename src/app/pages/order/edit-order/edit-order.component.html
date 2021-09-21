@@ -85,7 +85,7 @@
       required
       >
     </label>
-    <label>
+    <label *ngIf="order.orderAgency != 'patugente'">
       <span>Municipio </span>
       <input type="text"
       class="form-control"
@@ -97,7 +97,7 @@
       name="orderMunicipio"
       #orderMunicipio = "ngModel">
     </label>
-    <label>
+    <label *ngIf="order.orderAgency != 'patugente'">
       <span>Dirección </span>
       <input type="text"
       class="form-control"
@@ -110,7 +110,7 @@
       #orderAddress = "ngModel">
 
     </label>
-    <label>
+    <label *ngIf="order.orderAgency != 'patugente'">
       <span>Referencia</span>
       <input type="text"
       class="form-control"
@@ -147,7 +147,7 @@
 
 
     </label>
-    <label>
+    <label *ngIf="order.orderAgency != 'patugente'">
       <span>Teléfono Fijo</span>
       <input type="text"
       class="form-control"
@@ -200,6 +200,13 @@
 </option>
 </select>
     </label>
+
+    <a class="col-4" *ngIf="order.orderAgency == 'patugente'" [href]='pdf' target="_blank">
+      <img class="mb-3" src='https://academy.leewayweb.com/wp-content/uploads/2017/05/pdf.png'  width="160" height="160" />
+    </a>
+
+
+
     <label *ngIf="admin && (user!='buttycomercial' && user!='comercial') &&  !(order.state == 'Revisado' || order.state == 'Cancelado')">
       <span>Sucursal</span>
       <select  [(ngModel)]="order.orderSucursal"
@@ -259,7 +266,7 @@
 
   </div>
 
-  <div class="col-lg-6">
+  <div class="col-lg-6" *ngIf="order.orderAgency != 'patugente'">
     <table>
       <tr>
         <th colspan="2">Productos</th>

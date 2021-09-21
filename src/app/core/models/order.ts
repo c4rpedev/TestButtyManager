@@ -20,5 +20,6 @@ export class Order {
     productArray: Product[];
     state: string;
     createdAt: Date;
+    orderInvoice: File;
   }
 
