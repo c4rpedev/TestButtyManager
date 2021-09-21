@@ -38,6 +38,10 @@ export class ListProductsComponent implements OnInit {
   term: string;
   loading: boolean;
   categorys: any = [];
+
+  //variable para mostrar otro valor por defecto en los select cuando se edita un product
+  editProv = false;
+  editCat = false;
   // categorys: any = ['Combo', 'Producto', 'restaurante1', 'masterpizza', 'combos todo x 1 precio' ];
 
   productState: boolean;
@@ -69,7 +73,17 @@ export class ListProductsComponent implements OnInit {
       this.getProvinces();
      // this.getProductForProvince();
      this.getCategories();
-      //this.migrar();
+
+     //En caso de editar un producto, inicializar los filtros para mostrar la vista de dicho producto
+     if(this.service.edit){
+       this.selectedProvince = this.service.productProvince;
+       this.selectedCategory = this.service.productCategory;
+       this.term = this.service.productName;
+       this.service.edit = false;
+       this.editProv = true;
+       this.editCat = true;
+       this.getProductForProvince();
+     }
     })
 
   }
@@ -111,8 +125,14 @@ export class ListProductsComponent implements OnInit {
   };
 
   editProduct(product: any, productsA: any) {
+    console.log('1')
+    this.service.productProvince = this.selectedProvince;
+    this.service.productCategory = this.selectedCategory;
+    this.service.productName = this.term;
+    console.log('2')
     this.productsEdit.push(product);
     this.productsAttr.push(productsA);
+    console.log('3')
     this.router.navigate(['/b']);
     this.router.navigateByUrl('/edit-product', { state: { product: this.productsEdit, productA: this.productsAttr } });
   };
@@ -149,23 +169,18 @@ export class ListProductsComponent implements OnInit {
   }
 
   getProductForProvince() {
-    console.log(this.selectedProvince);
+    this.editProv = false;
     if (this.userService.isAdmin(this.user)) {
       this.loading = true;
       this.service.getProductsbyProvince(this.selectedProvince).then(res => {
         this.products = res;
         this.loading = false;
-        console.log('Products');
-
-        console.log(this.products);
       })
     } else {
       this.loading = true;
       this.service.getProductsbyProvinceAndAgency(this.selectedProvince, this.user).then(res => {
         this.products = res;
         this.loading = false;
-        console.log(this.products);
-
       })
     }
   }

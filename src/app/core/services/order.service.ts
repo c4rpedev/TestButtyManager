@@ -9,6 +9,13 @@ import { Observable } from 'rxjs';
 })
 export class OrderService {
 
+  //Variable para definir si regresar a la vista de archivado o a la lista de pedidos
+  edit = false;
+  Archivados = false;
+  values: any;
+  conditions: any;
+  methods: any;
+
   constructor() { }
 
   createOrder(order: Order, products: any[], user: string){

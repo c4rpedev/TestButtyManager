@@ -157,9 +157,9 @@ export class EditProductComponent implements OnInit {
     }
   saveProduct(form: NgForm){
     if(form.valid){
+      this.service.edit = true;
       this.product.productAgencys = this.agencys;
       this.product.productProvinces = this.provincesProduct;
-      console.log(this.img + ' <<<-------IMG')
       this.service.updateProduct(this.productsA[0].id, this.product, this.img.toString(), this.dataSource);
       Swal.fire({
         position: 'top-end',

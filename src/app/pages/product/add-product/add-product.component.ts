@@ -132,7 +132,7 @@ export class AddProductComponent implements OnInit {
         showConfirmButton: false,
         timer: 1500
       })
-      this.router.navigate(['/']);
+      this.router.navigate(['/list-product']);
     }else{
       Swal.fire({
         icon: 'error',

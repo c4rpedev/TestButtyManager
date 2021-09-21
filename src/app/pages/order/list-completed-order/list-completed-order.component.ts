@@ -194,6 +194,13 @@ export class ListCompletedOrderComponent implements OnInit  {
              }else{
               this.displayedColumns =  ['id', 'date', 'client', 'products', 'reciver', 'province', 'municipio','mobile','phone', 'state', 'accions'];
              }
+             if (this.orderService.edit) {
+              this.searchValue = this.orderService.values;
+              this.searchCondition = this.orderService.conditions;
+              this._filterMethods = this.orderService.methods;
+              this.orderService.edit = false;
+              this.applyFilter();
+            }
           })
         }else{
           this.orderService.getOrderCompleted(this.user).then(res=>{
@@ -250,6 +257,13 @@ export class ListCompletedOrderComponent implements OnInit  {
          }else{
           this.displayedColumns =  ['id', 'date', 'client', 'products', 'reciver', 'province', 'municipio','mobile','phone', 'state', 'accions'];
          }
+         if (this.orderService.edit) {
+          this.searchValue = this.orderService.values;
+          this.searchCondition = this.orderService.conditions;
+          this._filterMethods = this.orderService.methods;
+          this.orderService.edit = false;
+          this.applyFilter();
+        }
           })
         }
 
@@ -280,6 +294,10 @@ export class ListCompletedOrderComponent implements OnInit  {
         conditions: this.searchCondition,
         methods: this._filterMethods,
       };
+
+      this.orderService.values = this.searchValue;
+      this.orderService.conditions = this.searchCondition;
+      this.orderService.methods = this._filterMethods;
 
       this.dataSource.filter = searchFilter;
     }
@@ -387,7 +405,7 @@ export class ListCompletedOrderComponent implements OnInit  {
     }
 
     editOrder(order: any, orderId: String){
-      console.log(orderId);
+      this.orderService.Archivados = true;
       this.router.navigate(['/b']);
       this.router.navigateByUrl('/edit-order', { state: {order: order, orderId: orderId, user: this.user, admin: this.admin, sucursal: this.sucursal}});
     }

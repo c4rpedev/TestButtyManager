@@ -46,7 +46,7 @@
           <div class="province-select" *ngIf="selectedProvince && (admin || user=='franklin' || user=='tushoponline' ||user=='domiciliohabana' ||user=='zenatour')">
             <select [(ngModel)]="selectedCategory"  class="form-select" id="selectedCategory" >
               <option [ngValue]="null">Seleccione una categoria</option>
-              <option *ngFor="let p of categorys">
+              <option *ngFor="let p of categorys" [ngValue]="p.attributes.name">
                 {{p.attributes.name}}
              </option>
             </select>
@@ -54,7 +54,7 @@
           <div class="province-select">
             <select [(ngModel)]="selectedProvince"  (ngModelChange)="getProductForProvince()" class="form-select" id="selectProvince" >
               <option [ngValue]="null">Seleccione una provincia</option>
-              <option *ngFor="let p of provinces">
+              <option *ngFor="let p of provinces" [ngValue]="p.name">
                 {{p.name}}
              </option>
             </select>

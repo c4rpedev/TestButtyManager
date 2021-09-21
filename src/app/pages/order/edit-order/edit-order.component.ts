@@ -19,7 +19,7 @@ import { UserService } from 'src/app/core/services/user.service';
   templateUrl: './edit-order.component.html',
   styleUrls: ['./edit-order.component.scss']
 })
-export class EditOrderComponent implements OnInit {  
+export class EditOrderComponent implements OnInit {
   order: Order = new Order();
   orderId: string;
   user: string;
@@ -42,45 +42,45 @@ export class EditOrderComponent implements OnInit {
     public dialog: MatDialog,
   ) { }
 
-  ngOnInit(): void {    
-  
+  ngOnInit(): void {
+
     this.order = history.state.order;
-    this.img=  history.state.order.orderAlbaran._url;    
+    this.img=  history.state.order.orderAlbaran._url;
     this.orderId = history.state.orderId;
     this.user = history.state.user;
     this.admin = history.state.admin;
     this.sucursal = history.state.sucursal;
-    
+
     this.products = this.order.productArray;
      //this.order.orderProvince = this.products[0].province;
      console.log('Products');
      console.log(history.state.orderId);
-     
+
      console.log(this.products[0].province);
      this.products.forEach(element => {
        this.subtotal = +element.price;
        this.total = this.total + this.subtotal
-       console.log(this.total);       
-       
+       console.log(this.total);
+
      });
      this.sucursalService.getSucursal().then(res =>{
-      this.sucursalName = res;   
-      console.log('tests');        
+      this.sucursalName = res;
+      console.log('tests');
       console.log(this.sucursalName);
     });
-    
+
   }
- 
+
   photo(event: any) {
-    this.filePath = event.files;    
+    this.filePath = event.files;
     console.log("Path");
     console.log(this.filePath);
     this.file = event[0];
-      const reader = new FileReader();   
+      const reader = new FileReader();
       reader.readAsDataURL(event.target.files[0]);
       reader.onload = event => {
-        this.img = reader.result;  
-      };    
+        this.img = reader.result;
+      };
 }
 sendEmail(){
   let emailuser = this.userService.returnMail(this.order.orderAgency);
@@ -100,23 +100,23 @@ sendEmail(){
             path : this.img.toString()
           }]
         }).then( message => {alert("Correo de confirmación enviado a Agencia"); } );
-    } 
+    }
 }
   onSubmit(form: NgForm){
     // var albaranes = 'albaranes.jpg'
     var hasAlbaran = false;
     console.log(form);
-  
+
     if(form.valid || form.disabled){
       if( this.order.state != 'Nuevo' && this.order.state != 'Revisado' && this.order.state != 'En Proceso'){
         hasAlbaran = true
 
        }
-    
+
       this.orderService.updateOrder(this.order, this.orderId, this.img.toString(), hasAlbaran).subscribe(
         success =>{
           console.log('Show MSG');
-          
+
           Swal.fire({
             position: 'top-end',
             icon: 'success',
@@ -127,17 +127,24 @@ sendEmail(){
           if(this.order.state == 'Finalizado'){
               this.sendEmail();
            }
-          this.router.navigate(['/orders']);
+           this.orderService.edit = true;
+           if(this.orderService.Archivados){
+             this.orderService.Archivados = false;
+            this.router.navigate(['/orders-completed']);
+           }else{
+            this.router.navigate(['/orders']);
+           }
+
         }
       );
-    
+
     }else{
       Swal.fire({
         icon: 'error',
         title: 'Oops...',
-        text: 'Complete todos los campos obligatorios!',        
+        text: 'Complete todos los campos obligatorios!',
       })
-    }  
+    }
   }
 
   openDialog(): void {
@@ -146,10 +153,10 @@ sendEmail(){
       data: {mobile: this.order.orderMobile}
     });
   }
-  
+
   print(){
     this.router.navigate(['/b']);
-    this.router.navigateByUrl('/print-view', { state: {order: this.order}}); 
+    this.router.navigateByUrl('/print-view', { state: {order: this.order}});
   }
 
 }

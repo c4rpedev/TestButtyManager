@@ -14,6 +14,11 @@ export class ProductService {
   img: string;
   path: string;
   results: any;
+  //Aquí almaceno los datos del producto que se va a editar para una vez editado regresar a la vista de productos
+  edit = false;
+  productProvince: any;
+  productCategory: any;
+  productName: any;
 
   constructor(private http:HttpClient,
               private router: Router,
