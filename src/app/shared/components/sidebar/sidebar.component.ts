@@ -22,14 +22,14 @@ export class SidebarComponent implements OnInit {
   public screenWidth: any;
   public screenHeight: any;
   albaranes: string = 'albaranes.jpg'
-  
+
   constructor(
     private complainService: ComplainService,
     public userService: UserService,
     public auth: AuthService,
-    private orderService: OrderService,
-    @Inject(DOCUMENT) public document: Document) { 
-    
+    public orderService: OrderService,
+    @Inject(DOCUMENT) public document: Document) {
+
   }
 
   ngOnInit(): void {
@@ -38,28 +38,21 @@ export class SidebarComponent implements OnInit {
       this.admin = this.userService.isAdmin(this.user);
       this.sucursal = this.userService.isSucursal(this.user);
       this.restaurant = this.userService.isRestaurant(this.user);
-      this.orderService.getOrder(this.user).then(res=>{
-        console.log('RESSSSS');
-        for (const order of res) {
-          if(order.attributes.state != 'Finalizado' && order.attributes.orderAlbaran._name.indexOf(this.albaranes, order.attributes.orderAlbaran._name.length - this.albaranes.length) !== -1){
-             this.ordersCount++;
-             console.log(this.ordersCount);             
-          }          
-        } 
-        
-      })
-      this.complainService.getComplain(this.user).then(res=>{        
-       for (const complain of res) {      
+
+      this.orderService.orderCount();
+
+      this.complainService.getComplain(this.user).then(res=>{
+       for (const complain of res) {
          if(complain.attributes.complainState == 'Nuevo'){
            this.complains = true;
            this.complainsCount++;
          }
-       }       
+       }
      })
-     }) 
-     
-     
-    
+     })
+
+
+
       this.screenWidth = window.innerWidth;
       this.screenHeight = window.innerHeight;
    }
@@ -72,8 +65,8 @@ export class SidebarComponent implements OnInit {
         this.isOpened = "block"
       }
     }
-    
-    
+
+
   }
   isComercial(): boolean{
     if(this.user == 'buttycomercial' || this.user == 'comercial' ){

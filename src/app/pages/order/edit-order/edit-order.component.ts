@@ -32,6 +32,7 @@ export class EditOrderComponent implements OnInit {
   img: string | ArrayBuffer =
   "https://bulma.io/images/placeholders/480x480.png";
   photosrc: String;
+  isImg = false;
   filePath:String;
   file: File;
   constructor(
@@ -80,6 +81,7 @@ export class EditOrderComponent implements OnInit {
       reader.readAsDataURL(event.target.files[0]);
       reader.onload = event => {
         this.img = reader.result;
+        this.isImg = true;
       };
 }
 sendEmail(){
@@ -109,14 +111,15 @@ sendEmail(){
 
     if(form.valid || form.disabled){
       if( this.order.state != 'Nuevo' && this.order.state != 'Revisado' && this.order.state != 'En Proceso'){
+        // if(this.isImg){
         hasAlbaran = true
-
+        // }
        }
 
       this.orderService.updateOrder(this.order, this.orderId, this.img.toString(), hasAlbaran).subscribe(
         success =>{
           console.log('Show MSG');
-
+          this.orderService.orderCount();
           Swal.fire({
             position: 'top-end',
             icon: 'success',

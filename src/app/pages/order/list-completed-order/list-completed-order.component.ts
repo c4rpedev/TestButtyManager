@@ -200,6 +200,8 @@ export class ListCompletedOrderComponent implements OnInit  {
               this._filterMethods = this.orderService.methods;
               this.orderService.edit = false;
               this.applyFilter();
+            }else{
+              this.orderService.conditions = null;
             }
           })
         }else{
@@ -263,6 +265,8 @@ export class ListCompletedOrderComponent implements OnInit  {
           this._filterMethods = this.orderService.methods;
           this.orderService.edit = false;
           this.applyFilter();
+        }else{
+          this.orderService.conditions = null;
         }
           })
         }
