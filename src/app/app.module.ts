@@ -1,3 +1,6 @@
+import { AddUserComponent } from './pages/user/add-user/add-user.component';
+import { EditUserComponent } from './pages/user/edit-user/edit-user.component';
+import { ListUserComponent } from './pages/user/list-user/list-user.component';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { MatTableModule } from '@angular/material/table';
@@ -21,18 +24,18 @@ import { NavbarComponent } from './shared/components/navbar/navbar.component';
 import { HttpClientModule } from '@angular/common/http'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ProductModule } from './pages/product/product.module';
+import { AuthModuleLogin } from './pages/auth/auth.module';
 import { ListOrdersComponent } from './pages/order/list-orders/list-orders.component';
 import { ReportComponent } from './pages/report/report.component';
 import { AddOrderComponent } from './pages/order/add-order/add-order.component';
 import { AddOrderSucursalComponent } from './pages/order/add-order-sucursal/add-order-sucursal.component';
-import { LoginComponent } from './pages/login/login.component';
 import { EditOrderComponent } from './pages/order/edit-order/edit-order.component';
 import { AddComplainComponent } from './pages/complain/add-complain/add-complain.component';
 import { RegistroComponent } from './pages/registro/registro.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { environment } from '../environments/environment';
 import * as Parse from 'parse'
-import { AuthModule } from '@auth0/auth0-angular';
+// import { AuthModule } from '@auth0/auth0-angular';
 import { PrintViewComponent } from './pages/print-view/print-view.component';
 import { EditComplainComponent } from './pages/complain/edit-complain/edit-complain.component';
 import { ListComplainComponent } from './pages/complain/list-complain/list-complain.component';
@@ -59,9 +62,8 @@ Parse.initialize(environment.PARSE_APP_ID, environment.PARSE_JS_KEY, );
     ReportComponent,
     AddOrderComponent,
     AddOrderSucursalComponent,
-    LoginComponent,
     EditOrderComponent,
-    AddComplainComponent,    
+    AddComplainComponent,
     RegistroComponent,
     PrintViewComponent,
     EditComplainComponent,
@@ -70,10 +72,14 @@ Parse.initialize(environment.PARSE_APP_ID, environment.PARSE_JS_KEY, );
     EditTransportComponent,
     SendSmsComponent,
     SucursalComponent,
-    ListCompletedOrderComponent,    
-      
+    ListCompletedOrderComponent,
+    ListUserComponent,
+    EditUserComponent,
+    AddUserComponent,
+
   ],
   imports: [
+    AuthModuleLogin,
     MatTableModule,
     MatPaginatorModule,
     MatSortModule,
@@ -88,23 +94,23 @@ Parse.initialize(environment.PARSE_APP_ID, environment.PARSE_JS_KEY, );
     MatTooltipModule,
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule,   
+    HttpClientModule,
     BrowserAnimationsModule,
     ProductModule,
-    FormsModule,    
+    FormsModule,   
     ReactiveFormsModule,
     DxPivotGridModule,
     DxChartModule,
-    ModalModule, 
-    Ng2SearchPipeModule,   
-    AuthModule.forRoot({
-      domain: 'buttymanager.us.auth0.com',
-      clientId: 'HqCeBy0WHL7qHa7MSQWFUWB6QcohLYzT'
-    }),
+    ModalModule,
+    Ng2SearchPipeModule,
+    // AuthModule.forRoot({
+    //   domain: 'buttymanager.us.auth0.com',
+    //   clientId: 'HqCeBy0WHL7qHa7MSQWFUWB6QcohLYzT'
+    // }),
   ],
   providers: [
     MatDatepickerModule,
-    MatNativeDateModule 
+    MatNativeDateModule
   ],
   bootstrap: [AppComponent]
 })

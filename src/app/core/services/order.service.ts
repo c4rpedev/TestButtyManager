@@ -1,4 +1,4 @@
-import { AuthService } from '@auth0/auth0-angular';
+import { AuthServices } from 'src/app/core/services/auth.service';
 import { Injectable } from '@angular/core';
 import { Order } from '../models/order';
 import * as Parse from 'parse'
@@ -19,7 +19,7 @@ export class OrderService {
   user: string;
   ordersCount: number = 0;
 
-  constructor(public auth: AuthService) { }
+  constructor(public auth: AuthServices) { }
 
   createOrder(order: Order, products: any[], user: string) {
     (async () => {
@@ -283,8 +283,7 @@ export class OrderService {
   }
 
   orderCount() {
-    this.auth.user$.subscribe(user => {
-      this.user = user.nickname;
+      this.user = this.auth.logedUser.userName;
       this.ordersCount = 0;
       this.getOrder(this.user).then(res => {
         for (const order of res) {
@@ -293,7 +292,6 @@ export class OrderService {
           }
         }
       })
-    });
   };
 
 }

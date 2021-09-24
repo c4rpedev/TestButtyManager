@@ -1,3 +1,4 @@
+import { AuthServices } from 'src/app/core/services/auth.service';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common';
@@ -9,7 +10,6 @@ import Swal from 'sweetalert2';
 import { ProductService } from 'src/app/core/services/product.service';
 import { Product } from 'src/app/core/models/product';
 import { NgForm } from '@angular/forms';
-import { AuthService } from '@auth0/auth0-angular';
 import { UserService } from 'src/app/core/services/user.service';
 
 @Component({
@@ -29,7 +29,7 @@ export class CreateComboComponent implements OnInit {
   filePath:String;
   img: string | ArrayBuffer =
   "https://bulma.io/images/placeholders/480x480.png";
-  photosrc: String; 
+  photosrc: String;
   file: File;
   constructor(
     private router: Router,
@@ -37,44 +37,42 @@ export class CreateComboComponent implements OnInit {
     private provinceService: GetProvincesService,
     private orderService: OrderService,
     private service: ProductService,
-    private auth: AuthService
+    private auth: AuthServices
   ) { }
 
   ngOnInit(): void {
-    this.auth.user$.subscribe(user=>{
-      this.user = user.nickname;
+      this.user = this.auth.logedUser.userName;
       this.admin = this.userService.isAdmin(this.user);
       console.log(this.admin);
-      
-    })
-    this.provinces = this.provinceService.getProvinces();  
+
+    this.provinces = this.provinceService.getProvinces();
      this.products = history.state.product;
-     
+
      this.products.forEach(element => {
        this.subtotal = +element.price;
        this.product.productProvince = element.province;
        this.total = this.total + this.subtotal
      });
-    
+
   }
 
   photo(event: any) {
     this.filePath = event.files;
-    
+
     console.log("Path");
     console.log(this.filePath);
     this.file = event[0];
 
       const reader = new FileReader();
-      
+
 
       reader.readAsDataURL(event.target.files[0]);
 
       reader.onload = event => {
         this.img = reader.result;
-        
+
       };
-    
+
     }
 
     saveCombo(form: NgForm){
@@ -92,11 +90,11 @@ export class CreateComboComponent implements OnInit {
         Swal.fire({
           icon: 'error',
           title: 'Oops...',
-          text: 'Complete todos los campos obligatorios!',        
+          text: 'Complete todos los campos obligatorios!',
         })
-      } 
-      
+      }
+
     }
-    
+
 
 }

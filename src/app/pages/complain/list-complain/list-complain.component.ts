@@ -1,6 +1,6 @@
+import { AuthServices } from 'src/app/core/services/auth.service';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthService } from '@auth0/auth0-angular';
 import { ComplainService } from 'src/app/core/services/complain.service';
 import { UserService } from 'src/app/core/services/user.service';
 import Swal from 'sweetalert2';
@@ -17,37 +17,35 @@ export class ListComplainComponent implements OnInit {
   admin: boolean;
   constructor(
     private router: Router,
-    private auth: AuthService,
+    private auth: AuthServices,
     private complainService: ComplainService,
     private userService: UserService
   ) { }
 
   ngOnInit(): void {
-    this.auth.user$.subscribe(user =>{
       this.loading = true;
-      this.user = user.nickname;   
+      this.user = this.auth.logedUser.userName;
       this.complainService.getComplain(this.user).then(res=>{
-        this.complains = res;  
+        this.complains = res;
         console.log(this.complains);
         this.loading = false;
-      }) 
+      })
       this.isAdmin();
-    }) 
   }
-  isAdmin(){    
+  isAdmin(){
     this.admin = this.userService.isAdmin(this.user);
   }
 
-  addComplain() {    
+  addComplain() {
     this.router.navigate(['/b']);
-    this.router.navigateByUrl('/add-complain');  
+    this.router.navigateByUrl('/add-complain');
   };
 
   editComplain(complain: any, complainId: String){
     this.router.navigate(['/b']);
-    this.router.navigateByUrl('/edit-complain', { state: {complain: complain, complainId: complainId, user: this.user}});  
+    this.router.navigateByUrl('/edit-complain', { state: {complain: complain, complainId: complainId, user: this.user}});
   }
- 
+
 
   deleteComplain(complain: any){
     Swal.fire({
@@ -60,8 +58,8 @@ export class ListComplainComponent implements OnInit {
       confirmButtonText: 'Si, borralo!'
     }).then((result) => {
       if (result.isConfirmed) {
-      
-        
+
+
         this.complainService.deleteComplain(complain.id);
         Swal.fire(
           'Borrado!',

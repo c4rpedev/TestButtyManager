@@ -2,12 +2,15 @@ export class User {
   $key: string;
   userName: string;
   emailId: string;
-  password?: string;  
+  password: string;
   phoneNumber: string;
   createdOn?: string;
   userRole: string;
   isAdmin: boolean;
   avatar?: string;
+  active: boolean;
+  token: string;
+  tokendate: Date;
 }
 
 export class UserDetail {

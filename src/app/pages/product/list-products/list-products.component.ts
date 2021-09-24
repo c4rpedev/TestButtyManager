@@ -1,3 +1,4 @@
+import { AuthServices } from 'src/app/core/services/auth.service';
 import { Product } from 'src/app/core/models/product';
 import { CategoryService } from './../../../core/services/category.service';
 import { Component, Inject, OnInit } from '@angular/core';
@@ -6,7 +7,6 @@ import { ProductService } from 'src/app/core/services/product.service';
 import { GetProvincesService } from 'src/app/core/services/get-provinces.service';
 import { NgForm } from '@angular/forms';
 import Swal from 'sweetalert2';
-import { AuthService } from '@auth0/auth0-angular';
 import { DOCUMENT } from '@angular/common';
 import { UserService } from 'src/app/core/services/user.service';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -54,7 +54,7 @@ export class ListProductsComponent implements OnInit {
     private userService: UserService,
     private municipioService: MunicipioService,
     private categoryService: CategoryService,
-    public auth: AuthService,
+    public auth: AuthServices,
     public dialog: MatDialog,
     @Inject(DOCUMENT) public document: Document
 
@@ -65,9 +65,8 @@ export class ListProductsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.auth.user$.subscribe(user => {
 
-      this.user = user.nickname;
+      this.user = this.auth.logedUser.userName;
       this.isAdmin();
       this.who = history.state.who;
       this.getProvinces();
@@ -84,7 +83,6 @@ export class ListProductsComponent implements OnInit {
        this.editCat = true;
        this.getProductForProvince();
      }
-    })
 
   }
 

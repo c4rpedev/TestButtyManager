@@ -1,10 +1,10 @@
+import { AuthServices } from 'src/app/core/services/auth.service';
 import { Component, Inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ProductService } from 'src/app/core/services/product.service';
 import { GetProvincesService } from 'src/app/core/services/get-provinces.service';
 import { NgForm } from '@angular/forms';
 import Swal from 'sweetalert2';
-import { AuthService } from '@auth0/auth0-angular';
 import { DOCUMENT } from '@angular/common';
 import { UserService } from 'src/app/core/services/user.service';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
@@ -36,9 +36,9 @@ export class ListProductsSucursalComponent implements OnInit {
   term: string;
   loading: boolean;
   categorys: any = ['Combo', 'Producto', 'Restaurante 1' ];
-  productState: boolean; 
-  
-  
+  productState: boolean;
+
+
 
   constructor(private service: ProductService,
     private router: Router,
@@ -46,10 +46,10 @@ export class ListProductsSucursalComponent implements OnInit {
     private userService: UserService,
     private municipioService: MunicipioService,
     private sucursalService: SucursalService,
-    public auth: AuthService,
+    public auth: AuthServices,
     public dialog: MatDialog,
     @Inject(DOCUMENT) public document: Document
-   
+
     ) {
       this.selectedCategory = null;
       this.selectedProvince = null;
@@ -57,16 +57,14 @@ export class ListProductsSucursalComponent implements OnInit {
   }
 
   ngOnInit(): void {
-     this.auth.user$.subscribe(user =>{    
-       this.user = user.nickname;    
-       this.isAdmin();        
-      this.who= history.state.who;       
+       this.user = this.auth.logedUser.userName;
+       this.isAdmin();
+      this.who= history.state.who;
       this.getSucursal();
-      this.getProductForProvince();  
-    })
+      this.getProductForProvince();
 
   }
-  
+
   openDialog(product: any): void {
     const dialogRef = this.dialog.open(PreviewProductComponent, {
       width: '600px',
@@ -75,13 +73,13 @@ export class ListProductsSucursalComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed');
-     
+
     });
   }
 
 
 
-  addOrder() {    
+  addOrder() {
     if(this.productsCart.length > 0){
       this.router.navigate(['/b']);
     this.router.navigateByUrl('/add-order', { state: {product: this.productsCart, province: this.selectedProvince}});
@@ -94,20 +92,20 @@ export class ListProductsSucursalComponent implements OnInit {
         timer: 1500
       })
     }
-      
+
   };
 
-  editProduct(product: any, productsA: any) {    
+  editProduct(product: any, productsA: any) {
     this.productsEdit.push(product);
     this.productsAttr.push(productsA);
     this.router.navigate(['/b']);
-    this.router.navigateByUrl('/edit-product', { state: {product: this.productsEdit, productA: this.productsAttr}});  
+    this.router.navigateByUrl('/edit-product', { state: {product: this.productsEdit, productA: this.productsAttr}});
   };
 
-  createCombo() {    
+  createCombo() {
     if(this.productsCart.length > 1){
       this.router.navigate(['/b']);
-      this.router.navigateByUrl('/create-combo', { state: {product: this.productsCart}}); 
+      this.router.navigateByUrl('/create-combo', { state: {product: this.productsCart}});
     }else{
       Swal.fire({
         position: 'top-end',
@@ -117,35 +115,35 @@ export class ListProductsSucursalComponent implements OnInit {
         timer: 1500
       })
     }
-     
+
   };
   getSucursal(){
-   
+
       console.log('Su');
       console.log(this.user);
-      
-      
+
+
       this.sucursalService.getSucursalFromUser(this.user).then(res=>{
         console.log('Sucursal');
-        
-        console.log(res);        
-       
+
+        console.log(res);
+
       })
-  
- 
-   
+
+
+
   }
 
   getProductForProvince() {
-  
+
       this.loading = true;
       this.service.getProductFromCategory(this.user).then(res=>{
-        this.products = res; 
+        this.products = res;
         this.loading = false;
         console.log(this.products);
-        
-      }) 
-    
+
+      })
+
   }
   isAdmin(){
     this.admin = this.userService.isAdmin(this.user);
@@ -166,9 +164,9 @@ export class ListProductsSucursalComponent implements OnInit {
     console.log('Changed');
     console.log(id);
     console.log(state);
-    
+
    this.service.updateProductState(id, !state);
-    
+
   }
 
 }

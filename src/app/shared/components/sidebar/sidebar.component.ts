@@ -1,5 +1,5 @@
+import { AuthServices } from 'src/app/core/services/auth.service';
 import { Component, OnInit, Inject } from '@angular/core';
-import { AuthService } from '@auth0/auth0-angular';
 import { DOCUMENT } from '@angular/common';
 import { UserService } from 'src/app/core/services/user.service';
 import { ComplainService } from 'src/app/core/services/complain.service';
@@ -26,15 +26,14 @@ export class SidebarComponent implements OnInit {
   constructor(
     private complainService: ComplainService,
     public userService: UserService,
-    public auth: AuthService,
+    public auth: AuthServices,
     public orderService: OrderService,
     @Inject(DOCUMENT) public document: Document) {
 
   }
 
   ngOnInit(): void {
-    this.auth.user$.subscribe(user =>{
-      this.user = user.nickname;
+      this.user = this.auth.logedUser.userName;
       this.admin = this.userService.isAdmin(this.user);
       this.sucursal = this.userService.isSucursal(this.user);
       this.restaurant = this.userService.isRestaurant(this.user);
@@ -48,7 +47,6 @@ export class SidebarComponent implements OnInit {
            this.complainsCount++;
          }
        }
-     })
      })
 
 

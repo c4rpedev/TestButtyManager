@@ -2,7 +2,6 @@ import { AfterViewInit, Component, Inject, OnInit, ViewChild } from '@angular/co
 import { Router } from '@angular/router';
 import { OrderService } from 'src/app/core/services/order.service';
 import Swal from 'sweetalert2';
-import { AuthService } from '@auth0/auth0-angular';
 import { DOCUMENT } from '@angular/common';
 import { AuthServices } from 'src/app/core/services/auth.service';
 import { UserService } from 'src/app/core/services/user.service';
@@ -118,7 +117,7 @@ export class ListOrdersComponent implements OnInit {
     private provinceService: GetProvincesService,
     private transportService: TransportService,
     private sucursalService: SucursalService,
-    public auth: AuthService,
+    public auth: AuthServices,
     @Inject(DOCUMENT) public document: Document) {
     this.router.routeReuseStrategy.shouldReuseRoute = () => false;
     // Object to create Filter for
@@ -127,9 +126,8 @@ export class ListOrdersComponent implements OnInit {
 
   async ngOnInit() {
     //this.initEqualOption();
-    await this.auth.user$.subscribe(user => {
       this.loading = true;
-      this.user = user.nickname;
+      this.user = this.auth.logedUser.userName;
       this.restaurante = this.userService.isRestaurant(this.user);
       this.provinces = this.provinceService.getProvinces();
       this.transportService.getTransport().then(res => {
@@ -275,7 +273,6 @@ export class ListOrdersComponent implements OnInit {
         })
       }
 
-    })
 
 
   }
@@ -411,7 +408,7 @@ export class ListOrdersComponent implements OnInit {
         this.orderService.deleteOrder(order.id);
         Swal.fire(
           'Borrado!',
-          'El producto ha sido eliminado.',
+          'La orden ha sido eliminado.',
           'success'
         )
         this.router.navigate(['/b']);

@@ -1,9 +1,9 @@
+import { AuthServices } from 'src/app/core/services/auth.service';
 import { CategoryService } from './../../../core/services/category.service';
 import { DOCUMENT } from '@angular/common';
 import { Component, Inject, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AuthService } from '@auth0/auth0-angular';
 import { from } from 'rxjs';
 import { Product } from 'src/app/core/models/product';
 import { GetProvincesService } from 'src/app/core/services/get-provinces.service';
@@ -70,7 +70,7 @@ export class AddProductComponent implements OnInit {
               private router: Router,
               private transportService: TransportService,
               public categoryService: CategoryService,
-              public auth: AuthService,
+              public auth: AuthServices,
                 @Inject(DOCUMENT) public document: Document) {
                 this.selectedProvince = null;
               }
@@ -78,9 +78,7 @@ export class AddProductComponent implements OnInit {
   ngOnInit(): void {
     this.getCategories();
     this.provinces = this.provinceService.getProvinces();
-    this.auth.user$.subscribe(user =>{
-      this.user = user.nickname;
-    })
+      this.user = this.auth.logedUser.userName;
     this.transportService.getTransport().then(res =>{
       this.transporte = res;
     });

@@ -8,7 +8,7 @@
     <button type="button" class="btn btn-outline-light open__sidebar" (click)="openMenu()"><i class="fa fa-list"></i></button>
   </div>
 
-    <div class="links__container" [ngStyle]="{'display': isOpened}" *ngIf="auth.user$ | async as user">
+    <div class="links__container" [ngStyle]="{'display': isOpened}" *ngIf="auth.check as user">
     <div class="links" [routerLink]="['/orders']" (click)="openMenu()" >
       <div class="icon">
         <i class="fa fa-table"></i>
@@ -34,6 +34,12 @@
           <i class="fa fa-plus-square"></i>
         </div>
         <span>Añadir Productos</span>
+      </div>
+      <div class="links" [routerLink]="['/list-category']" (click)="openMenu()" *ngIf="admin && !sucursal && !isComercial()">
+        <div class="icon">
+          <i class="fa fa-sliders"></i>
+        </div>
+        <span>Categorías de Productos</span>
       </div>
      <div class="links" [routerLink]="['/reports']"  (click)="openMenu()" *ngIf="admin && !isComercial()">
       <div class="icon">
@@ -71,6 +77,14 @@
       </div>
       <span>Sucursales</span>
     </div>
+    <div class="links" [routerLink]="['/list-user']" (click)="openMenu()">
+      <div class="icon">
+        <i class="fa fa-user-circle"></i>
+      </div>
+      <span>Usuarios</span>
+    </div>
+
+
   </div>
 
  </div>

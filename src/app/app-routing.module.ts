@@ -1,9 +1,14 @@
+import { LogedGuard } from './core/guards/loged.guard';
+import { AddCategoryComponent } from './pages/product/add-category/add-category.component';
+import { ListCategoryComponent } from './pages/product/list-category/list-category.component';
+import { AddUserComponent } from './pages/user/add-user/add-user.component';
+import { EditUserComponent } from './pages/user/edit-user/edit-user.component';
+import { ListUserComponent } from './pages/user/list-user/list-user.component';
 import { ListCompletedOrderComponent } from './pages/order/list-completed-order/list-completed-order.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { EditOrderComponent } from './pages/order/edit-order/edit-order.component';
-import { LoginComponent } from './pages/login/login.component';
 import { AddOrderComponent } from './pages/order/add-order/add-order.component';
 import { AddOrderSucursalComponent } from './pages/order/add-order-sucursal/add-order-sucursal.component';
 import { ListOrdersComponent } from './pages/order/list-orders/list-orders.component';
@@ -26,47 +31,126 @@ import { SucursalComponent } from './pages/sucursal/sucursal.component';
 const routes: Routes = [
 
   //-- Product --//
-  { path: '', component: ListOrdersComponent},
-  { path: 'list-product', component: ListProductsComponent},
-  { path: 'list-product-sucursal', component: ListProductsSucursalComponent},
-  { path: 'add-product', component: AddProductComponent},
-  { path: 'edit-product', component: EditProductComponent},
-  { path: 'create-combo', component: CreateComboComponent},
+  {
+    path: '', component: ListOrdersComponent,
+    canActivate: [LogedGuard]
+  },
+  {
+    path: 'list-product', component: ListProductsComponent,
+    canActivate: [LogedGuard]
+  },
+  {
+    path: 'list-product-sucursal', component: ListProductsSucursalComponent,
+    canActivate: [LogedGuard]
+  },
+  {
+    path: 'add-product', component: AddProductComponent,
+    canActivate: [LogedGuard]
+  },
+  {
+    path: 'edit-product', component: EditProductComponent,
+    canActivate: [LogedGuard]
+  },
+  {
+    path: 'create-combo', component: CreateComboComponent,
+    canActivate: [LogedGuard]
+  },
+  {
+    path: 'list-category', component: ListCategoryComponent,
+    canActivate: [LogedGuard]
+  },
+  {
+    path: 'add-category', component: AddCategoryComponent,
+    canActivate: [LogedGuard]
+  },
   //-- Order --//
-  { path: 'orders', component: ListOrdersComponent},
-  { path: 'orders-completed', component: ListCompletedOrderComponent},
-  { path: 'add-order', component: AddOrderComponent},
-  { path: 'add-order-sucursal', component: AddOrderSucursalComponent},
-  { path: 'edit-order', component: EditOrderComponent},
+  {
+    path: 'orders', component: ListOrdersComponent,
+    canActivate: [LogedGuard]
+  },
+  {
+    path: 'orders-completed', component: ListCompletedOrderComponent,
+    canActivate: [LogedGuard]
+  },
+  {
+    path: 'add-order', component: AddOrderComponent,
+    canActivate: [LogedGuard]
+  },
+  {
+    path: 'add-order-sucursal', component: AddOrderSucursalComponent,
+    canActivate: [LogedGuard]
+  },
+  {
+    path: 'edit-order', component: EditOrderComponent,
+    canActivate: [LogedGuard]
+  },
 
   //-- Print --//
-  { path: 'print-view', component: PrintViewComponent},
+  {
+    path: 'print-view', component: PrintViewComponent,
+    canActivate: [LogedGuard]
+  },
 
   //-- Complains --//
-  { path: 'add-complain', component: AddComplainComponent},
-  { path: 'edit-complain', component: EditComplainComponent},
-  { path: 'list-complain', component: ListComplainComponent},
+  {
+    path: 'add-complain', component: AddComplainComponent,
+    canActivate: [LogedGuard]
+  },
+  {
+    path: 'edit-complain', component: EditComplainComponent,
+    canActivate: [LogedGuard]
+  },
+  {
+    path: 'list-complain', component: ListComplainComponent,
+    canActivate: [LogedGuard]
+  },
 
   //-- User Related --//
-  { path: 'login', component: LoginComponent},
-  { path: 'registro', component: RegistroComponent},
+  // { path: 'login', component: LoginComponent},
+  { path: 'registro', component: RegistroComponent },
 
   //-- Reports --//
-  { path: 'reports', component: ReportComponent},
+  {
+    path: 'reports', component: ReportComponent,
+    canActivate: [LogedGuard]
+  },
 
   //-- Province --//
-  { path: 'edit-province', component: EditProvinceComponent},
+  {
+    path: 'edit-province', component: EditProvinceComponent,
+    canActivate: [LogedGuard]
+  },
 
-   //-- Transport --//
-   { path: 'edit-transport', component: EditTransportComponent},
+  //-- Transport --//
+  {
+    path: 'edit-transport', component: EditTransportComponent,
+    canActivate: [LogedGuard]
+  },
 
-   //-- Sucursal --//
-   { path: 'edit-sucursal', component: SucursalComponent}
+  //-- Sucursal --//
+  {
+    path: 'edit-sucursal', component: SucursalComponent,
+    canActivate: [LogedGuard]
+  },
+
+  //-- User --//
+  {
+    path: 'list-user', component: ListUserComponent,
+    canActivate: [LogedGuard]
+  },
+  {
+    path: 'edit-user', component: EditUserComponent,
+    canActivate: [LogedGuard]
+  },
+  {
+    path: 'add-user', component: AddUserComponent,
+    canActivate: [LogedGuard]
+  },
 
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, {onSameUrlNavigation: 'reload'})],
+  imports: [RouterModule.forRoot(routes, { onSameUrlNavigation: 'reload' })],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

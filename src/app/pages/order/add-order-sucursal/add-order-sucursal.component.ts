@@ -7,7 +7,6 @@ import { GetProvincesService } from 'src/app/core/services/get-provinces.service
 import { OrderService } from 'src/app/core/services/order.service';
 import Swal from 'sweetalert2';
 import { NgForm } from '@angular/forms';
-import { AuthService } from '@auth0/auth0-angular';
 
 import { DOCUMENT } from '@angular/common';
 import { AuthServices } from 'src/app/core/services/auth.service';
@@ -51,7 +50,7 @@ export class AddOrderSucursalComponent implements OnInit {
     private orderService: OrderService,
     private municipioService: MunicipioService,
     private transportService: TransportService,
-    public auth: AuthService,
+    public auth: AuthServices,
                 @Inject(DOCUMENT) public document: Document
   ) { }
 
@@ -62,10 +61,8 @@ export class AddOrderSucursalComponent implements OnInit {
      this.order.orderProvince = history.state.province;
      this.getProvinces();
     //  this.initProvince();
-     this.auth.user$.subscribe(user =>{
-      this.user = user.nickname;
+      this.user = this.auth.logedUser.userName;
       this.getTransportCost();
-     })
   }
 
   // initProvince(){
