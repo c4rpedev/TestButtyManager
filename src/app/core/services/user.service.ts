@@ -99,7 +99,7 @@ export class UserService {
     //Buscando el usuario por el ID
     const user = Parse.Object.extend('users');
     const query = new Parse.Query(user);
-    query.equalTo('userId', User.userId);
+    query.equalTo('userId', this.selectedUser.userId);
     query.find().then(async res => {
       //Verificando que existe el usuario
       if (res[0]) {
