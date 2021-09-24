@@ -18,6 +18,7 @@ export class AuthServices {
 
   users: String;
   userLoggedIn: boolean;      // other components can check on this variable for the login status of the user
+  error: string;
 
   /////NewLogin
   public logedUser: User;
@@ -55,10 +56,10 @@ export class AuthServices {
           await myNewObject.save();
           this.router.navigate(['/orders']);
         } else {
-          console.log('Contraseña incorrecta.');
+          this.error = 'Contraseña incorrecta.';
         }
       } else {
-        console.log('Usuario no registrado.')
+        this.error = 'Usuario no registrado.';
       }
     });
   }
@@ -88,12 +89,12 @@ export class AuthServices {
       } else {
         console.log('token no válido');
         this.check = false;
-        this.router.navigate(['/auth/login']);
+        this.router.navigate(['/']);
       }
     } else {
       this.check = false;
       console.log('no se envió un token');
-      this.router.navigate(['/auth/login']);
+      this.router.navigate(['/']);
     }
   }
 
@@ -101,7 +102,7 @@ export class AuthServices {
     localStorage.clear();
     this.check = false;
     console.log('cerrar sesión')
-    this.router.navigate(['/login']);
+    this.router.navigate(['/']);
   }
 
 

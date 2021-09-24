@@ -20,7 +20,7 @@ export class LogedGuard implements CanActivate {
       if(this.authService.check){
         return true;
       }else{
-        this.route.navigate(['/auth/login']);
+        this.route.navigate(['/']);
         return false;
       }
 

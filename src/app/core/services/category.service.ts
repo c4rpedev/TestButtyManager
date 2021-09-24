@@ -9,7 +9,6 @@ import * as Parse from 'parse'
 })
 
 export class CategoryService {
-  categories: Array<Category>;
   name: String;
 
   constructor(private http: HttpClient,

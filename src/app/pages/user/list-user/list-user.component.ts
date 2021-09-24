@@ -157,8 +157,8 @@ export class ListUserComponent implements OnInit {
 
   editUser(user: any, userId: String) {
     this.userService.selectedUser = user;
+    console.log(user)
     this.router.navigate(['/add-user']);
-    // this.router.navigateByUrl('/edit-user', { state: { order: order, orderId: orderId, user: this.user, admin: this.admin } });
   }
 
   deleteUser(user: any) {

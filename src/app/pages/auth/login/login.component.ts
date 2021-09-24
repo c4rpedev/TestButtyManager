@@ -13,6 +13,7 @@ import { NgForm } from '@angular/forms';
 export class LoginComponent implements OnInit {
 
   error: string;
+  user = new User();
   constructor(public authService: AuthServices, public route: Router) { }
 
   ngOnInit(): void {

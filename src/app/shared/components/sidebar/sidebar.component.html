@@ -77,11 +77,17 @@
       </div>
       <span>Sucursales</span>
     </div>
-    <div class="links" [routerLink]="['/list-user']" (click)="openMenu()">
+    <div class="links" [routerLink]="['/list-user']" (click)="openMenu()" *ngIf="admin && !sucursal && !isComercial()">
       <div class="icon">
         <i class="fa fa-user-circle"></i>
       </div>
       <span>Usuarios</span>
+    </div>
+    <div class="links" [routerLink]="['/list-role']" (click)="openMenu()" *ngIf="admin && !sucursal && !isComercial()">
+      <div class="icon">
+        <i class="fa fa-address-book-o"></i>
+      </div>
+      <span>Roles</span>
     </div>
 
 

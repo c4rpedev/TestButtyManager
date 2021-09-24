@@ -4,6 +4,7 @@ import { User } from './../models/user';
 import { Injectable } from '@angular/core';
 import * as Parse from 'parse';
 import * as CryptoJS from 'crypto-js';
+import Swal from 'sweetalert2';
 
 @Injectable({
   providedIn: 'root'
@@ -35,51 +36,99 @@ export class UserService {
     return query.find();
   }
 
-  async addUser(user: User) {
-    // const userfind = Parse.Object.extend('users');
-    // const query = new Parse.Query(userfind);
-    // query.equalTo('emailId', user.emailId);
-    // const us = query.find();
-    // console.log('VIENE US!!!!')
-    // console.log(us)
-    // if(us){
-    //   console.log('Ya existe un usuario con ese Correo.');
-    //   return 'Error'
-    // }
-    const EncryptPassword = CryptoJS.AES.encrypt(user.password.trim(), this.clave.trim()).toString();
+  addUser(user: User, img: string) {
+    //VERIFICANDO SI YA EXISTE UN USUARIO CON ESE CORREO
+    const userfind = Parse.Object.extend('users');
+    const query = new Parse.Query(userfind);
+    query.equalTo('emailId', user.emailId);
+    query.find().then(res => {
+      if (res[0]) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Ya existe un usuario con ese Correo.',
+        })
+      } else {
+        //VERIFICANDO SI NO HAY USUARIO CON ESE ID
+        const userfind2 = Parse.Object.extend('users');
+        const query2 = new Parse.Query(userfind2);
+        query2.equalTo('userId', user.userId);
+        query2.find().then(async ress => {
+          if (ress[0]) {
+            Swal.fire({
+              icon: 'error',
+              title: 'Oops...',
+              text: 'Ya existe un usuario con ese ID.',
+            })
+          } else {
 
-    const myNewObject = new Parse.Object('users');
-    myNewObject.set('userName', user.userName);
-    myNewObject.set('emailId', user.emailId);
-    myNewObject.set('password', EncryptPassword);
-    myNewObject.set('phoneNumber', user.phoneNumber);
-    myNewObject.set('userRole', 'usuario');
-    myNewObject.set('active', true);
-    try {
-      const result = await myNewObject.save().then(res => {
-        console.log('User created', res);
-        this.router.navigate(['/list-user']);
-      });
-    } catch (error) {
-      console.error('Error while creating User: ', error);
-    }
+            const EncryptPassword = CryptoJS.AES.encrypt(user.password.trim(), this.clave.trim()).toString();
+
+            const myNewObject = new Parse.Object('users');
+            myNewObject.set('userId', user.userId);
+            myNewObject.set('userName', user.userName);
+            myNewObject.set('emailId', user.emailId);
+            myNewObject.set('password', EncryptPassword);
+            myNewObject.set('phoneNumber', user.phoneNumber);
+            myNewObject.set('userRole', user.userRole);
+            myNewObject.set('active', true);
+            myNewObject.set('mayoreo', user.mayoreo);
+            myNewObject.set('logo', new Parse.File("logo.jpg", { uri: img }));
+
+            try {
+              await myNewObject.save().then(res => {
+                Swal.fire({
+                  position: 'top-end',
+                  icon: 'success',
+                  title: 'Usuario añadido!',
+                  showConfirmButton: false,
+                  timer: 1500
+                })
+                this.router.navigate(['/list-user']);
+              });
+            } catch (error) {
+              console.log(error);
+            }
+          }
+        });
+      }
+    });
   }
 
-  async editUser(id: string) {
-    const query = new Parse.Query('users');
-    try {
-      const object = await query.get(id);
-      try {
-        const response = await object.destroy()
-        return response;
-      } catch (error) {
-        console.error('Error while deleting ParseObject', error);
-        return error;
+  async editUser(User: User, img: string) {
+    //Buscando el usuario por el ID
+    const user = Parse.Object.extend('users');
+    const query = new Parse.Query(user);
+    query.equalTo('userId', User.userId);
+    query.find().then(async res => {
+      //Verificando que existe el usuario
+      if (res[0]) {
+        const myNewObject = res[0];
+        myNewObject.set('userId', User.userId);
+        myNewObject.set('userName', User.userName);
+        myNewObject.set('emailId', User.emailId);
+        myNewObject.set('phoneNumber', User.phoneNumber);
+        myNewObject.set('userRole', User.userRole);
+        myNewObject.set('active', true);
+        myNewObject.set('mayoreo', User.mayoreo);
+        myNewObject.set('logo', new Parse.File("logo.jpg", { uri: img }));
+        await myNewObject.save();
+        Swal.fire({
+          position: 'top-end',
+          icon: 'success',
+          title: 'Usuario actualizado!',
+          showConfirmButton: false,
+          timer: 1500
+        })
+        this.router.navigate(['/list-user']);
+      } else {
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'No se encontró el usuario.',
+        })
       }
-    } catch (error) {
-      console.error('Error while retrieving ParseObject', error);
-      return error;
-    }
+    })
   }
 
   async deleteUser(id: string) {
@@ -96,12 +145,6 @@ export class UserService {
       console.error('Error while retrieving ParseObject', error);
     }
   }
-
-
-
-
-
-
 
 
   //Métodos antiguos

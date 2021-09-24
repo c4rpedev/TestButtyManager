@@ -1,8 +1,9 @@
+import { AddRoleComponent } from './pages/user/add-role/add-role.component';
+import { ListRoleComponent } from './pages/user/list-role/list-role.component';
 import { LogedGuard } from './core/guards/loged.guard';
 import { AddCategoryComponent } from './pages/product/add-category/add-category.component';
 import { ListCategoryComponent } from './pages/product/list-category/list-category.component';
 import { AddUserComponent } from './pages/user/add-user/add-user.component';
-import { EditUserComponent } from './pages/user/edit-user/edit-user.component';
 import { ListUserComponent } from './pages/user/list-user/list-user.component';
 import { ListCompletedOrderComponent } from './pages/order/list-completed-order/list-completed-order.component';
 import { NgModule } from '@angular/core';
@@ -139,13 +140,17 @@ const routes: Routes = [
     canActivate: [LogedGuard]
   },
   {
-    path: 'edit-user', component: EditUserComponent,
-    canActivate: [LogedGuard]
-  },
-  {
     path: 'add-user', component: AddUserComponent,
     canActivate: [LogedGuard]
   },
+  {
+    path: 'list-role', component: ListRoleComponent,
+    canActivate: [LogedGuard]
+  },
+  {
+    path: 'add-role', component: AddRoleComponent,
+    canActivate: [LogedGuard]
+  }
 
 ];
 

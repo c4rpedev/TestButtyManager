@@ -1,5 +1,6 @@
 export class User {
   $key: string;
+  userId: string;
   userName: string;
   emailId: string;
   password: string;
@@ -11,6 +12,10 @@ export class User {
   active: boolean;
   token: string;
   tokendate: Date;
+  createdAt?: Date;
+  userCategories: string[];
+  logo: File;
+  mayoreo: [[string, string, number]]
 }
 
 export class UserDetail {

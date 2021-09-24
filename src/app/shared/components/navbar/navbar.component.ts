@@ -1,3 +1,4 @@
+import { UserService } from 'src/app/core/services/user.service';
 import { AuthServices } from 'src/app/core/services/auth.service';
 import { Component, OnInit, Inject, Input } from '@angular/core';
 import { Router } from '@angular/router';
@@ -24,7 +25,9 @@ export class NavbarComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
+    if (this.auth.logedUser.logo['_url']) {
+      this.img = this.auth.logedUser.logo['_url'];
+    }
 
 
   }

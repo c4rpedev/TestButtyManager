@@ -14,13 +14,13 @@
           <!-- Email input -->
           <div class="form-outline mb-4">
             <input required name="emailId" type="email" id="form3Example3" class="form-control form-control-lg"
-              placeholder="Correo" [(ngModel)]="authService.logedUser.emailId" #email="ngModel" />
+              placeholder="Correo" [(ngModel)]="user.emailId" #email="ngModel" />
           </div>
 
           <!-- Password input -->
           <div class="form-outline mb-3">
             <input required name="password" type="password" id="form3Example4" class="form-control form-control-lg"
-              placeholder="Contraseña" [(ngModel)]="authService.logedUser.password" #password="ngModel" />
+              placeholder="Contraseña" [(ngModel)]="user.password" #password="ngModel" />
           </div>
 
           <div class="d-flex justify-content-between align-items-center">
@@ -36,14 +36,14 @@
           </div>
 
           <!--Mostrar errores que devuelve la api -->
-          <p *ngIf="error" class="mt-2" style="color:red">{{error}}</p>
+          <p *ngIf="this.authService.error" class="mt-2" style="color:red">{{this.authService.error}}</p>
 
           <div class="text-center text-lg-start mt-4 pt-2">
             <button [disabled]="form.invalid" type="submit" class="btn btn-primary btn-lg"
               style="padding-left: 2.5rem; padding-right: 2.5rem;">Entrar</button>
 
-            <p class="small fw-bold mt-2 pt-1 mb-0">No tienes un usuario? <a href="#!" class="link-danger"
-                [routerLink]="['/auth/','register']">Regístrate</a></p>
+            <!-- <p class="small fw-bold mt-2 pt-1 mb-0">No tienes un usuario? <a href="#!" class="link-danger"
+                [routerLink]="['/auth/','register']">Regístrate</a></p> -->
           </div>
         </form>
       </div>

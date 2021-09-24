@@ -1,5 +1,4 @@
 import { AddUserComponent } from './pages/user/add-user/add-user.component';
-import { EditUserComponent } from './pages/user/edit-user/edit-user.component';
 import { ListUserComponent } from './pages/user/list-user/list-user.component';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
@@ -47,7 +46,9 @@ import { SendSmsComponent } from './pages/order/send-sms/send-sms.component';
 import { FilterItemDirective } from "./filter-item.directive";
 import { SucursalComponent } from './pages/sucursal/sucursal.component';
 import { AutocompleteOffDirective }  from './core/autocomplete';
-import { ListCompletedOrderComponent } from './pages/order/list-completed-order/list-completed-order.component'
+import { ListCompletedOrderComponent } from './pages/order/list-completed-order/list-completed-order.component';
+import { AddRoleComponent } from './pages/user/add-role/add-role.component';
+import { ListRoleComponent } from './pages/user/list-role/list-role.component'
 Parse.initialize(environment.PARSE_APP_ID, environment.PARSE_JS_KEY, );
 (Parse as any).serverURL = environment.serverURL;
 
@@ -74,8 +75,9 @@ Parse.initialize(environment.PARSE_APP_ID, environment.PARSE_JS_KEY, );
     SucursalComponent,
     ListCompletedOrderComponent,
     ListUserComponent,
-    EditUserComponent,
     AddUserComponent,
+    AddRoleComponent,
+    ListRoleComponent,
 
   ],
   imports: [

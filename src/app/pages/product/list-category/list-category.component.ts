@@ -10,12 +10,8 @@ import { Component, OnInit, ViewChild } from '@angular/core';
   styleUrls: ['./list-category.component.scss']
 })
 export class ListCategoryComponent implements OnInit {
-  // categories: Category[] = [new Category()];
   categories: Array<any>;
-  dataSource: any;
   loading: boolean;
-  displayedColumns: string[] = ['id', 'name', 'accions'];
-
 
   constructor(private router: Router,
     public service: CategoryService) { }
