@@ -17,7 +17,7 @@
     </div> -->
     <div class="dropdown" style="float:right;" >
       <div class="navbar__account dropbtn" *ngIf="auth.logedUser.userName">
-        <div class="navbar__avatar ">
+        <!-- <div class="navbar__avatar ">
           <a href="#">
 
             <img class="rounded-circle" src="{{img}}" alt="">
@@ -31,7 +31,7 @@
           <div class="user__role">
             {{ auth.logedUser.userRole }}
           </div>
-        </div>
+        </div> -->
         <div class="sign__out">
           <a  (click)="auth.logout()">
             <i class="fa fa-sign-out fa-2x" alt="Salir"></i>

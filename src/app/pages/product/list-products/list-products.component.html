@@ -112,7 +112,7 @@
                     <p class="card-text">{{ product.attributes.category }}</p>
                     <!--Card footer-->
                     <div class="card-footer">
-                      <span class="left">$ {{ product.attributes.price }}</span>
+                      <span class="left">$ {{ price(product.attributes.price, product.attributes.category) }}</span>
                       <span class="right">
                         <a class="add__product"
                           placement="top"

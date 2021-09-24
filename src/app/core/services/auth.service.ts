@@ -75,6 +75,9 @@ export class AuthServices {
   }
 
   async checkToken() {
+    var now = new Date().getTime();
+
+    console.log(diff / (1000 * 60 * 60 * 24));
     const token = localStorage.getItem("x-access-token");
     if (token) {
       const user = Parse.Object.extend('users');
@@ -82,7 +85,9 @@ export class AuthServices {
       query.equalTo('token', token);
       const res = await query.find()
       if (res[0]) {
-        const time = res[0].attributes.tokendate;
+        const time = res[0].attributes.tokendate.getTime();
+        var diff = now - time;
+        console.log(diff/(1000*60*60));
         console.log(time);
         this.check = true;
         this.logedUser = res[0].attributes as User;

@@ -22,6 +22,7 @@ export class SidebarComponent implements OnInit {
   public screenWidth: any;
   public screenHeight: any;
   albaranes: string = 'albaranes.jpg'
+  img: String;
 
   constructor(
     private complainService: ComplainService,
@@ -34,6 +35,9 @@ export class SidebarComponent implements OnInit {
 
   ngOnInit(): void {
       this.user = this.auth.logedUser.userName;
+      if (this.auth.logedUser.logo['_url']) {
+        this.img = this.auth.logedUser.logo['_url'];
+      }
       this.admin = this.userService.isAdmin(this.user);
       this.sucursal = this.userService.isSucursal(this.user);
       this.restaurant = this.userService.isRestaurant(this.user);

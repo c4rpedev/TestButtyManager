@@ -1,8 +1,15 @@
 <div class="sidebar__container doNotPrint">
   <div class="title__container">
     <div class="sidebar__logo" >
-      <img src="assets/images/logo.png">
-      <h1>Buttymanager</h1>
+      <img class="rounded-circle" src="{{img}}">
+      <div>
+          <div class="user__name mt-2">
+            <h1>{{ auth.logedUser.userName }}</h1>
+          </div>
+          <div class="user__role">
+          <h4 style="color: white;">{{ auth.logedUser.userRole }}</h4>
+          </div>
+        </div>
     </div>
 
     <button type="button" class="btn btn-outline-light open__sidebar" (click)="openMenu()"><i class="fa fa-list"></i></button>

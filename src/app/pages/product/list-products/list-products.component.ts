@@ -104,7 +104,31 @@ export class ListProductsComponent implements OnInit {
     });
   }
 
-
+  price(price: any, category: string): number{
+    var find = false;
+    var pri = 0;
+    if(this.auth.logedUser.userRole != 'Agencia'){
+      return price;
+    }else{
+      if(this.auth.logedUser.mayoreo){
+        this.auth.logedUser.mayoreo.forEach(element => {
+          if(element[0] == category){
+            find = true;
+            if(element[1] == '%'){
+              pri = (parseInt(element[2].toString()) * price / 100);
+            }else{
+              pri = (parseInt(element[2].toString()) + price);
+            }
+          }
+        });
+      }
+    }
+    if(find){
+      return pri;
+    }else{
+      return price;
+    }
+  }
 
   addOrder() {
     if (this.productsCart.length > 0) {
