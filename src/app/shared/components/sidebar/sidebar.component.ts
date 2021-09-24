@@ -38,8 +38,8 @@ export class SidebarComponent implements OnInit {
       if (this.auth.logedUser.logo['_url']) {
         this.img = this.auth.logedUser.logo['_url'];
       }
-      this.admin = this.userService.isAdmin(this.user);
-      this.sucursal = this.userService.isSucursal(this.user);
+      this.admin = this.auth.Admin();
+      this.sucursal = this.auth.Sucursal();
       this.restaurant = this.userService.isRestaurant(this.user);
 
       this.orderService.orderCount();

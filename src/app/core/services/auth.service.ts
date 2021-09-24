@@ -75,9 +75,7 @@ export class AuthServices {
   }
 
   async checkToken() {
-    var now = new Date().getTime();
-
-    console.log(diff / (1000 * 60 * 60 * 24));
+    // var now = new Date().getTime();
     const token = localStorage.getItem("x-access-token");
     if (token) {
       const user = Parse.Object.extend('users');
@@ -85,10 +83,10 @@ export class AuthServices {
       query.equalTo('token', token);
       const res = await query.find()
       if (res[0]) {
-        const time = res[0].attributes.tokendate.getTime();
-        var diff = now - time;
-        console.log(diff/(1000*60*60));
-        console.log(time);
+        // const time = res[0].attributes.tokendate.getTime();
+        // var diff = now - time;
+        // console.log(diff/(1000*60*60));
+        // console.log(time);
         this.check = true;
         this.logedUser = res[0].attributes as User;
       } else {
@@ -110,6 +108,29 @@ export class AuthServices {
     this.router.navigate(['/']);
   }
 
+  Admin(){
+    if(this.logedUser.userRole == 'Administrador'){
+      return true;
+    }else{
+      return false;
+    }
+  }
+
+  Agencia(){
+    if(this.logedUser.userRole == 'Agencia'){
+      return true;
+    }else{
+      return false;
+    }
+  }
+
+  Sucursal(){
+    if(this.logedUser.userRole == 'Sucursal'){
+      return true;
+    }else{
+      return false;
+    }
+  }
 
   //Old
   getUser(): String {

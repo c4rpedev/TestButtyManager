@@ -207,7 +207,7 @@ export class ListProductsComponent implements OnInit {
     }
   }
   isAdmin() {
-    this.admin = this.userService.isAdmin(this.user);
+    this.admin = this.auth.Admin();
   }
   addToCart(product: any) {
     Swal.fire({

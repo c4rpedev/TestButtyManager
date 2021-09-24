@@ -136,7 +136,7 @@ export class ListOrdersComponent implements OnInit {
       this.sucursalService.getSucursal().then(res => {
         this.sucursalArray = res;
       });
-      if (this.userService.isSucursal(this.user)) {
+      if (this.auth.Admin()) {
         this.orderService.getOrderSucursal(this.user).then(res => {
           res.forEach((element: any) => {
             this.orders.push(element);
@@ -182,7 +182,7 @@ export class ListOrdersComponent implements OnInit {
 
           this.isAdmin();
           this.loading = false;
-          this.sucursal = this.userService.isSucursal(this.user);
+          this.sucursal = this.auth.Sucursal();
 
           if (this.admin || this.sucursal) {
             this.displayedColumns = ['id', 'date', 'agency', 'client', 'products', 'reciver', 'province', 'municipio', 'mobile', 'phone', 'state', 'accions'];
@@ -338,7 +338,7 @@ export class ListOrdersComponent implements OnInit {
   }
 
   isAdmin() {
-    this.admin = this.userService.isAdmin(this.user);
+    this.admin = this.auth.Admin();
   }
 
   //Check the state of the order and change it in consideration of the days before the end of the Delivery Time

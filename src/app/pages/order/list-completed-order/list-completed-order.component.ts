@@ -139,7 +139,7 @@ export class ListCompletedOrderComponent implements OnInit  {
         this.sucursalService.getSucursal().then(res =>{
           this.sucursalArray = res;
         });
-        if(this.userService.isSucursal(this.user)){
+        if(this.auth.Admin()){
           this.orderService.getOrderCompletedSucursal(this.user).then(res=>{
             res.forEach((element:any) => {
               this.orders.push(element);
@@ -185,7 +185,7 @@ export class ListCompletedOrderComponent implements OnInit  {
 
             this.isAdmin();
             this.loading = false;
-             this.sucursal = this.userService.isSucursal(this.user);
+             this.sucursal = this.auth.Sucursal();
 
              if(this.admin || this.sucursal){
                   this.displayedColumns =  ['id', 'date', 'agency', 'client', 'products', 'reciver', 'province', 'municipio','mobile','phone', 'state', 'accions'];
@@ -335,7 +335,7 @@ export class ListCompletedOrderComponent implements OnInit  {
     }
 
     isAdmin(){
-      this.admin = this.userService.isAdmin(this.user);
+      this.admin = this.auth.Admin();
     }
     checkState(){
       for (let order of this.orders) {

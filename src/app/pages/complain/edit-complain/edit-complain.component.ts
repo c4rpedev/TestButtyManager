@@ -1,3 +1,4 @@
+import { AuthServices } from 'src/app/core/services/auth.service';
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -28,7 +29,8 @@ export class EditComplainComponent implements OnInit {
   constructor(
     private complainService: ComplainService,
     private router: Router,
-    private userService: UserService
+    public auth: AuthServices,
+    private userService: UserService,
   ) { }
 
   ngOnInit(): void {
@@ -38,33 +40,33 @@ export class EditComplainComponent implements OnInit {
     this.index = +this.complainPic.complainPicNum;
     this.indexR = +this.complainPic.resultPicNum;
     this.complainId = history.state.complainId;
-    this.user = history.state.user;  
-    this.admin = this.userService.isAdmin(this.user);   
+    this.user = history.state.user;
+    this.admin = this.auth.Admin();
     this.getComplainPictures();
-    
+
   }
- 
+
 
   isAdmin(): boolean{
     console.log(this.admin);
-    
+
     return this.admin;
   }
-  getComplainPictures(){ 
+  getComplainPictures(){
     this.loading = false;
     console.log(this.index);
     console.log(this.complainPic.complainPicture0._url);
-    for (let index = 0; index < this.index; index++) {          
-     this.urls.push(this.complainPic['complainPicture'+index]._url)           
+    for (let index = 0; index < this.index; index++) {
+     this.urls.push(this.complainPic['complainPicture'+index]._url)
     }
     if(this.indexR != 0){
-      for (let indexR = 0; indexR < this.indexR; indexR++) {          
+      for (let indexR = 0; indexR < this.indexR; indexR++) {
         this.urlsResult.push(this.complainPic['resultPicture'+indexR]._url);
         console.log('URLResult');
          console.log(this.urlsResult);
        }
     }
-  
+
   }
 
   detectFiles(event: any) {
@@ -76,9 +78,9 @@ export class EditComplainComponent implements OnInit {
         reader.onload = (e: any) => {
           this.urlsResult.push(e.target.result);
         }
-        reader.readAsDataURL(file);        
+        reader.readAsDataURL(file);
       }
-    } 
+    }
   }
   onSubmit(form: NgForm){
     if(form.valid){
@@ -95,11 +97,11 @@ export class EditComplainComponent implements OnInit {
       Swal.fire({
         icon: 'error',
         title: 'Oops...',
-        text: 'Complete todos los campos obligatorios!',        
+        text: 'Complete todos los campos obligatorios!',
       })
-    } 
+    }
   }
 
-  
+
 
 }

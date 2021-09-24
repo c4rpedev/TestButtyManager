@@ -42,8 +42,7 @@ export class CreateComboComponent implements OnInit {
 
   ngOnInit(): void {
       this.user = this.auth.logedUser.userName;
-      this.admin = this.userService.isAdmin(this.user);
-      console.log(this.admin);
+      this.admin = this.auth.Admin();
 
     this.provinces = this.provinceService.getProvinces();
      this.products = history.state.product;

@@ -186,7 +186,7 @@ export class ListUserComponent implements OnInit {
 
 
   isAdmin() {
-    this.admin = this.userService.isAdmin(this.userauth);
+    this.admin = this.auth.Admin();
   }
 
   clearColumn(columnKey: string): void {

@@ -33,7 +33,7 @@ export class ListComplainComponent implements OnInit {
       this.isAdmin();
   }
   isAdmin(){
-    this.admin = this.userService.isAdmin(this.user);
+    this.admin = this.auth.Admin();
   }
 
   addComplain() {
